@@ -1,0 +1,104 @@
+2016.05.24, v1.1.11
+
+feature:
+- (package) tar-fs v1.13.0
+
+
+2016.04.11, v1.1.10
+
+feature:
+- (package) tar-stream v1.5.1
+
+
+2016.04.04, v1.1.9
+
+feature:
+- (package) tar-fs v1.12
+
+
+2016.03.07, v1.1.8
+
+feature:
+- (package) tar-fs v1.11.1
+
+
+2016.02.11, v1.1.7
+
+feature:
+- (package) tar-fs v1.10.0
+- (package) glob v7.0.0
+
+
+2015.12.21, v1.1.6
+
+feature:
+- (package) tar-fs v1.9.0
+
+
+2015.11.14, v1.1.5
+
+feature:
+- (package) glob v6.0.1
+
+
+2015.11.02, v1.1.4
+
+feature:
+- (package) tar-stream v1.3.0
+
+
+2015.09.02, v1.1.3
+
+feature:
+- (package) tar-fs v1.8.1
+
+
+2015.08.24, v1.1.2
+
+feature:
+- feature(package) minimist v1.2.0
+
+
+2015.08.17, v1.1.1
+
+feature:
+- feature(package) pipe-io v1.2.0
+
+
+2015.07.06, v1.1.0
+
+feature:
+- (jaguar) pack: could accept stream
+
+
+2015.07.06, v1.0.5
+
+feature:
+- (jaguar) pack: add ability to use streams instead of string
+
+
+2015.07.04, v1.0.4
+
+feature:
+- (package) rm fstream
+- (package) rm test
+
+
+2015.07.03, v1.0.3
+
+fix:
+- (jaguar) crash when no such file
+
+
+2015.07.02, v1.0.2
+
+fix:
+- (jaguar) _unpack -> _extract
+
+
+2015.07.02, v1.0.1
+
+feature:
+- (jaguar) rm this._files
+- (package) unpack -> extract
+

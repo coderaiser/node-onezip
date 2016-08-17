@@ -1,0 +1,36 @@
+{
+  "name": "jaguar",
+  "version": "1.0.0",
+  "description": "pack and extract .tar.gz archives with emitter",
+  "main": "lib/jaguar.js",
+  "bin": [
+    "bin/jaguar.js"
+  ],
+  "dependencies": {
+    "findit": "~2.0.0",
+    "glob": "~7.0.0",
+    "minimist": "~1.2.0",
+    "mkdirp": "^0.5.1",
+    "pipe-io": "~1.2.0",
+    "yauzl": "^2.6.0",
+    "yazl": "^2.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coderaiser/node-jaguar"
+  },
+  "keywords": [
+    "extract",
+    "zip",
+    "unzip",
+    "pack",
+  ],
+  "author": "coderaiser <mnemonic.enemy@gmail.com> (http://coderaiser.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coderaiser/node-jaguar/issues"
+  },
+  "homepage": "https://github.com/coderaiser/node-jaguar"
+}
