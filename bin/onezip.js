@@ -8,7 +8,7 @@ var onezip      = require('..'),
     argv        = process.argv,
     
     args        = require('yargs-parser')(argv.slice(2), {
-        boolean: [
+        string: [
             'pack',
             'extract',
         ],
