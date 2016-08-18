@@ -2,13 +2,13 @@
 
 'use strict';
 
-var jaguar      = require('..'),
+var onezip      = require('..'),
     path        = require('path'),
     glob        = require('glob'),
     argv        = process.argv,
     
-    args        = require('minimist')(argv.slice(2), {
-        string: [
+    args        = require('yargs-parser')(argv.slice(2), {
+        boolean: [
             'pack',
             'extract',
         ],
@@ -17,19 +17,11 @@ var jaguar      = require('..'),
             h: 'help',
             p: 'pack',
             x: 'extract'
-        },
-        unknown: function(cmd) {
-            var name = info().name;
-            
-            console.error(
-                '\'%s\' is not a ' +  name + ' option. ' +
-                'See \'' + name + ' --help\'.', cmd
-            );
-            
-            process.exit(-1);
         }
     });
-    
+
+validate(args);
+
 if (args.version)
     version();
 else if (args.help)
@@ -46,15 +38,13 @@ else
     help();
 
 function main(operation, file) {
-    var packer, wasError,
-        from, to,
-        cwd     = process.cwd();
-        
+    const cwd = process.cwd();
+    let to, packer, wasError;
+    
     switch(operation) {
     case 'pack':
-        from    = cwd;
         to      = path.join(cwd, file + '.zip');
-        packer  = jaguar.pack(cwd, to, [
+        packer  = onezip.pack(cwd, to, [
             file
         ]);
         
@@ -62,11 +52,12 @@ function main(operation, file) {
     
     case 'extract':
         to      = cwd;
-        packer  = jaguar.extract(file, to);
+        packer  = onezip.extract(file, to);
         break;
     }
     
     packer.on('error', function(error) {
+        console.log('---->');
         wasError = true;
         console.error(error.message);
     });
@@ -100,7 +91,7 @@ function info() {
 }
 
 function help() {
-    var bin         = require('../json/bin'),
+    var bin         = require('../help'),
         usage       = 'Usage: ' + info().name + ' [path]';
         
     console.log(usage);
@@ -109,6 +100,23 @@ function help() {
     Object.keys(bin).forEach(function(name) {
         var line = '  ' + name + ' ' + bin[name];
         console.log(line);
+    });
+}
+
+function validate(args) {
+    const cmdReg = /^(_|v(ersion)?|h(elp)?|p(ack)?|x|extract)$/;
+    
+    Object.keys(args).forEach((cmd) => {
+        if (!cmdReg.test(cmd)) {
+            const name = info().name;
+            
+            console.error(
+                '\'%s\' is not a ' +  name + ' option. ' +
+                'See \'' + name + ' --help\'.', cmd
+            );
+            
+            process.exit(-1);
+        }
     });
 }
 

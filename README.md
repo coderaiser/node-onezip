@@ -1,18 +1,18 @@
-# Jaguar [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL]
+# OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL]
 
-Pack and extract .tar.gz archives with emitter. 
+Pack and extract .zip archives with emitter. For work with `.tar.gz` archives use [jaguar](https://github.com/coderaiser/node-jaguar "Jaguar").
 
 ## Global
 
-`Jaguar` could be installed global with
+`onezip` could be installed global with
 
 ```
-npm i jaguar -g
+npm i onezip -g
 ```
 And used this way:
 
 ```
-Usage: jaguar [filename]
+Usage: onezip [filename]
 Options:
   -h, --help      display this help and exit
   -v, --version   output version information and exit
@@ -22,18 +22,26 @@ Options:
 
 ## Local
 
-`Jaguar` could be used localy. It will emit event on every packed/extracted file.
+`onezip` could be used localy. It will emit event on every packed/extracted file.
 Good for making progress bars.
 
-### Install
+## Install
 
 ```
-npm i jaguar --save
+npm i onezip --save
 ```
 
-### How to use?
+## Environments
 
-#### pack(from, to, names)
+In old `node.js` environments that supports `es5` only, `redrun` could be used with:
+
+```js
+var redrun = require('redrun/legacy');
+```
+
+## How to use?
+
+### pack(from, to, names)
 
 - `from`  - **string** directory that would be packed
 - `to`    - **string** or **stream**, name of archive
@@ -41,14 +49,14 @@ npm i jaguar --save
 
 ```js
 var pack,
-    jaguar          = require('jaguar'),
+    onezip          = require('onezip'),
     path            = require('path'),
     cwd             = process.cwd(),
     name            = 'pipe.tar.gz',
     from            = cwd + '/pipe-io',
     to              = path.join(cwd, name);
     
-pack = jaguar.pack(from, to, [
+pack = onezip.pack(from, to, [
     'LICENSE',
     'README.md',
     'package.json'
@@ -73,19 +81,18 @@ pack.on('end', function() {
 
 #### extract(from, to)
 
-- `from` - path to **.tar.gz** archive
+- `from` - path to **.zip** archive
 - `to` - path to directory where files would be stored.
 
 ```js
-var extract,
-    jaguar          = require('jaguar'),
-    path            = require('path'),
-    cwd             = process.cwd(),
-    name            = 'pipe.tar.gz',
-    to              = cwd + '/pipe-io',
-    from            = path.join(cwd, name);
-    
-extract = jaguar.extract(from, to);
+const onezip = require('onezip');
+const path = require('path');
+const cwd = process.cwd();
+const name = 'pipe.zip';
+const to = cwd + '/pipe-io';
+const from = path.join(cwd, name);
+
+const extract = onezip.extract(from, to);
 
 extract.on('file', function(name) {
     console.log(name);
@@ -118,12 +125,12 @@ done
 
 MIT
 
-[NPMIMGURL]:                https://img.shields.io/npm/v/jaguar.svg?style=flat
-[BuildStatusIMGURL]:        https://img.shields.io/travis/coderaiser/node-jaguar/master.svg?style=flat
-[DependencyStatusIMGURL]:   https://img.shields.io/gemnasium/coderaiser/node-jaguar.svg?style=flat
+[NPMIMGURL]:                https://img.shields.io/npm/v/onezip.svg?style=flat
+[BuildStatusIMGURL]:        https://img.shields.io/travis/coderaiser/node-onezip/master.svg?style=flat
+[DependencyStatusIMGURL]:   https://img.shields.io/gemnasium/coderaiser/node-onezip.svg?style=flat
 [LicenseIMGURL]:            https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
-[NPMURL]:                   https://npmjs.org/package/jaguar "npm"
-[BuildStatusURL]:           https://travis-ci.org/coderaiser/node-jaguar  "Build Status"
-[DependencyStatusURL]:      https://gemnasium.com/coderaiser/node-jaguar "Dependency Status"
+[NPMURL]:                   https://npmjs.org/package/onezip "npm"
+[BuildStatusURL]:           https://travis-ci.org/coderaiser/node-onezip  "Build Status"
+[DependencyStatusURL]:      https://gemnasium.com/coderaiser/node-onezip "Dependency Status"
 [LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
 
