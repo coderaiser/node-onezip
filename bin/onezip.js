@@ -2,23 +2,23 @@
 
 'use strict';
 
-var onezip      = require('..'),
-    path        = require('path'),
-    glob        = require('glob'),
-    argv        = process.argv,
-    
-    args        = require('yargs-parser')(argv.slice(2), {
-        string: [
-            'pack',
-            'extract',
-        ],
-        alias: {
-            v: 'version',
-            h: 'help',
-            p: 'pack',
-            x: 'extract'
-        }
-    });
+const onezip = require('..');
+const path = require('path');
+const glob = require('glob');
+const argv = process.argv;
+
+const args = require('yargs-parser')(argv.slice(2), {
+    string: [
+        'pack',
+        'extract',
+    ],
+    alias: {
+        v: 'version',
+        h: 'help',
+        p: 'pack',
+        x: 'extract'
+    }
+});
 
 validate(args);
 
@@ -27,11 +27,11 @@ if (args.version)
 else if (args.help)
     help();
 else if (args.pack)
-    getName(args.pack, function(name) {
+    getName(args.pack, (name) => {
         main('pack', name);
     });
 else if (args.extract)
-   getName(args.extract, function(name) {
+   getName(args.extract, (name) => {
         main('extract', name);
     });
 else
@@ -56,8 +56,7 @@ function main(operation, file) {
         break;
     }
     
-    packer.on('error', function(error) {
-        console.log('---->');
+    packer.on('error', (error) => {
         wasError = true;
         console.error(error.message);
     });
@@ -72,7 +71,7 @@ function main(operation, file) {
 }
 
 function getName(str, fn) {
-    glob(str, function(error, files) {
+    glob(str, (error, files) => {
         if (error)
             console.error(error.message);
         else if (!files.length)
@@ -91,15 +90,14 @@ function info() {
 }
 
 function help() {
-    var bin         = require('../help'),
-        usage       = 'Usage: ' + info().name + ' [path]';
+    const bin = require('../help');
+    const usage = `Usage: ${info().name} [path]`;
         
     console.log(usage);
     console.log('Options:');
     
-    Object.keys(bin).forEach(function(name) {
-        var line = '  ' + name + ' ' + bin[name];
-        console.log(line);
+    Object.keys(bin).forEach((name) => {
+        console.log(`  ${name} ${bin[name]}`);
     });
 }
 
@@ -109,12 +107,7 @@ function validate(args) {
     Object.keys(args).forEach((cmd) => {
         if (!cmdReg.test(cmd)) {
             const name = info().name;
-            
-            console.error(
-                '\'%s\' is not a ' +  name + ' option. ' +
-                'See \'' + name + ' --help\'.', cmd
-            );
-            
+            console.error(`'${cmd}' is not a ${name} option. See '${name} --help'.`);
             process.exit(-1);
         }
     });
