@@ -1,6 +1,6 @@
-# OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL]
+# OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
 
-Pack and extract .zip archives with emitter. 
+Pack and extract .zip archives with emitter.
 
 ## Global
 
@@ -31,14 +31,6 @@ Good for making progress bars.
 npm i onezip --save
 ```
 
-## Environments
-
-In old `node.js` environments that supports `es5` only, `redrun` could be used with:
-
-```js
-var redrun = require('redrun/legacy');
-```
-
 ## How to use?
 
 ### pack(from, to, names)
@@ -48,38 +40,41 @@ var redrun = require('redrun/legacy');
 - `names` - **array** of names in directory `from` that would be packed.
 
 ```js
-var pack,
-    onezip          = require('onezip'),
-    path            = require('path'),
-    cwd             = process.cwd(),
-    name            = 'pipe.tar.gz',
-    from            = cwd + '/pipe-io',
-    to              = path.join(cwd, name);
-    
-pack = onezip.pack(from, to, [
+const onezip = require('onezip');
+const path = require('path');
+const cwd = process.cwd();
+const name = 'pipe.tar.gz';
+const from = cwd + '/pipe-io';
+const to = path.join(cwd, name);
+
+const pack = onezip.pack(from, to, [
     'LICENSE',
     'README.md',
     'package.json'
 ]);
 
-pack.on('file', function(name) {
+pack.on('file', (name) => {
     console.log(name);
 });
 
-pack.on('progress', function(percent) {
+pack.on('start', () => {
+    console.log('start packing');
+});
+
+pack.on('progress', (percent) => {
     console.log(percent + '%');
 });
 
-pack.on('error', function(error) {
+pack.on('error', (error) => {
     console.error(error);
 });
 
-pack.on('end', function() {
+pack.on('end', () => {
     console.log('done');
 });
 ```
 
-#### extract(from, to)
+### extract(from, to)
 
 - `from` - path to **.zip** archive
 - `to` - path to directory where files would be stored.
@@ -94,24 +89,28 @@ const from = path.join(cwd, name);
 
 const extract = onezip.extract(from, to);
 
-extract.on('file', function(name) {
+extract.on('file', (name) => {
     console.log(name);
 });
 
-extract.on('progress', function(percent) {
+extract.on('start', (percent) => {
+    console.log('extracting started');
+});
+
+extract.on('progress', (percent) => {
     console.log(percent + '%');
 });
 
-extract.on('error', function(error) {
+extract.on('error', (error) => {
     console.error(error);
 });
 
-extract.on('end', function() {
+extract.on('end', () => {
     console.log('done');
 });
 ```
 
-In case of starting example output should be similar to:
+In case of starting example output should be similar to (but with additional events):
 
 ```
 33%
@@ -144,3 +143,5 @@ MIT
 [DependencyStatusURL]:      https://gemnasium.com/coderaiser/node-onezip "Dependency Status"
 [LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
 
+[CoverageURL]:              https://coveralls.io/github/coderaiser/node-jaguar?branch=master
+[CoverageIMGURL]:           https://coveralls.io/repos/coderaiser/node-jaguar/badge.svg?branch=master&service=github
