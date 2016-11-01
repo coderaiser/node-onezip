@@ -1,6 +1,6 @@
 # OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL]
 
-Pack and extract .zip archives with emitter. For work with `.tar.gz` archives use [jaguar](https://github.com/coderaiser/node-jaguar "Jaguar").
+Pack and extract .zip archives with emitter. 
 
 ## Global
 
@@ -111,7 +111,6 @@ extract.on('end', function() {
 });
 ```
 
-
 In case of starting example output should be similar to:
 
 ```
@@ -120,6 +119,17 @@ In case of starting example output should be similar to:
 100%
 done
 ```
+
+## Environments
+
+In old `node.js` environments that not fully supports `es2015`, `onezip`` could be used with:
+
+```js
+var onezip = require('onezip/legacy');
+```
+## Related
+
+- [Jaguar](https://github.com/coderaser/jaguar "Jaguar") - Pack and extract .tar.gz archives with emitter.
 
 ## License
 
