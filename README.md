@@ -121,7 +121,7 @@ done
 
 ## Environments
 
-In old `node.js` environments that not fully supports `es2015`, `onezip`` could be used with:
+In old `node.js` environments that not fully supports `es2015`, `onezip` could be used with:
 
 ```js
 var onezip = require('onezip/legacy');
