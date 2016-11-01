@@ -143,5 +143,5 @@ MIT
 [DependencyStatusURL]:      https://gemnasium.com/coderaiser/node-onezip "Dependency Status"
 [LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
 
-[CoverageURL]:              https://coveralls.io/github/coderaiser/node-jaguar?branch=master
-[CoverageIMGURL]:           https://coveralls.io/repos/coderaiser/node-jaguar/badge.svg?branch=master&service=github
+[CoverageURL]:              https://coveralls.io/github/coderaiser/node-onezip?branch=master
+[CoverageIMGURL]:           https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github
