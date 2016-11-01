@@ -26,6 +26,8 @@ const {
 const test = require('tape');
 const {pack}= require('..');
 
+const tmpFile = () => join(os.tmpdir(), `${Math.random()}.zip`);
+
 test('onezip: pack: no args', (t) => {
     t.throws(pack, /from should be a string!/, 'should throw when no args');
     t.end();
@@ -79,7 +81,7 @@ test('onezip: pack: error: write', (t) => {
 });
 
 test('onezip: pack', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
         'onezip.txt'
@@ -96,7 +98,7 @@ test('onezip: pack', (t) => {
 });
 
 test('onezip: pack: abort', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
         'onezip.txt'
@@ -111,7 +113,7 @@ test('onezip: pack: abort', (t) => {
 });
 
 test('onezip: pack: abort', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
         'onezip.txt'
@@ -126,7 +128,7 @@ test('onezip: pack: abort', (t) => {
 });
 
 test('onezip: pack: abort: fast', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
         'onezip.txt'
@@ -141,7 +143,7 @@ test('onezip: pack: abort: fast', (t) => {
 });
 
 test('onezip: pack: abort: unlink', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const dir = join(__dirname, 'fixture');
     const packer = pack(dir, to, [
         'onezip.txt'
@@ -165,7 +167,7 @@ test('onezip: pack: abort: unlink', (t) => {
 });
 
 _test('onezip: pack: unlink', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const dir = join(__dirname, 'fixture');
     const packer = pack(dir, to, [
         'onezip.txt'
@@ -194,7 +196,7 @@ _test('onezip: pack: unlink', (t) => {
 });
 
 test('onezip: pack: unlink: error', (t) => {
-    const to = join(tmpdir(), `${Math.random()}.zip`);
+    const to = tmpFile();
     const dir = join(__dirname, '..');
     const packer = pack(dir, to, [
         '.git'
@@ -221,9 +223,7 @@ test('onezip: pack: unlink: error', (t) => {
 test('onezip: pack: stat: error', (t) => {
     const {stat} = fs;
     
-    const tmp = os.tmpdir() + sep + `${Math.random().zip}`;
-    
-    const packer = pack(__dirname, tmp, [
+    const packer = pack(__dirname, tmpFile(), [
         'fixture'
     ]);
     
@@ -234,9 +234,36 @@ test('onezip: pack: stat: error', (t) => {
     });
     
     fs.stat = (name, fn) => {
-        process.nextTick(() => {
-            fn(Error('Can not stat!'));
-        })
+        fn(Error('Can not stat!'));
     };
 });
 
+test('onezip: pack: _readStream: error', (t) => {
+    const expect = 'ENOENT: no such file or directory, open \'hello world\'';
+    const packer = pack(__dirname, tmpFile(), [
+        'fixture'
+    ]);
+    
+    packer.on('error', (error) => {
+        t.equal(error.message, expect, 'should emit error');
+        t.end();
+    });
+    
+    packer._createReadStream('hello world');
+});
+
+test('onezip: pack: _onOpenReadStream: error', (t) => {
+    const expect = 'Can not open read stream';
+    const packer = pack(__dirname, tmpFile(), [
+        'fixture'
+    ]);
+    
+    packer.on('error', (error) => {
+        t.equal(error.message, expect, 'should emit error when can not open read stream');
+        t.end();
+    });
+    
+    const openReadStream = packer._onOpenReadStream();
+    
+    openReadStream(Error(expect));
+});
