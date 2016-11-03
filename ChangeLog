@@ -1,3 +1,9 @@
+2016.11.03, v1.0.3
+
+feature:
+- (onezip) no need in "wasError" check
+
+
 2016.11.03, v1.0.2
 
 fix:
