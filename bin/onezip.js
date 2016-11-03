@@ -39,7 +39,7 @@ else
 
 function main(operation, file) {
     const cwd = process.cwd();
-    let to, packer, wasError;
+    let to, packer;
     
     switch(operation) {
     case 'pack':
@@ -57,7 +57,6 @@ function main(operation, file) {
     }
     
     packer.on('error', (error) => {
-        wasError = true;
         console.error(error.message);
     });
     
@@ -66,7 +65,7 @@ function main(operation, file) {
     });
     
     packer.on('end', function() {
-        !wasError && process.stdout.write('\n');
+        process.stdout.write('\n');
     });
 }
 
