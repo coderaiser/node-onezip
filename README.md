@@ -129,6 +129,7 @@ var onezip = require('onezip/legacy');
 ## Related
 
 - [Jaguar](https://github.com/coderaiser/node-jaguar "Jaguar") - Pack and extract .tar.gz archives with emitter.
+- [Tar-to-zip](https://github.com/coderaiser/node-tar-to-zip "Tar-to-zip") - Convert tar and tar.gz archives to zip.
 
 ## License
 
