@@ -1,3 +1,12 @@
+2016.11.17, v1.0.5
+
+fix:
+- (onezip) pack/extract: slash at the end of from/to
+
+feature:
+- (package) nyc v9.0.1
+
+
 2016.11.08, v1.0.4
 
 feature:
