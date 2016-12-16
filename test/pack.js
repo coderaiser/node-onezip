@@ -97,6 +97,23 @@ test('onezip: pack', (t) => {
     });
 });
 
+test('onezip: pack: from: slash', (t) => {
+    const to = tmpFile();
+    const fixture = join(__dirname, 'fixture');
+    const packer = pack(`${fixture}/`, to, [
+        'onezip.txt'
+    ]);
+    
+    packer.on('end', () => {
+        const from = join(fixture, 'onezip.txt.zip');
+        const fileTo = readFileSync(to);
+        
+        unlinkSync(to);
+        t.ok(fileTo.length, 'should pack file');
+        t.end();
+    });
+});
+
 test('onezip: pack: abort', (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
