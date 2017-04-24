@@ -34,9 +34,9 @@
     "watch:coverage": "npm run watcher -- npm run coverage"
   },
   "dependencies": {
-    "async": "^2.0.1",
     "findit": "^2.0.0",
     "glob": "^7.0.0",
+    "itchy": "^1.0.0",
     "mkdirp": "^0.5.1",
     "pipe-io": "^2.0.1",
     "yargs-parser": "^5.0.0",
