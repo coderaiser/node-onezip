@@ -10,9 +10,10 @@ const {
     readFileSync,
     unlinkSync,
     rmdirSync,
-    mkdtempSync
+    mkdtempSync,
 } = require('fs');
 
+const rimraf = require('rimraf');
 const test = require('tape');
 const {extract}= require('..');
 
@@ -53,7 +54,7 @@ test('onezip: extract: error: wrong file type', (t) => {
 });
 
 test('onezip: extract', (t) => {
-    const to = mkdtempSync(tmpdir() + sep);
+    const to = tmp();
     const fixture = join(__dirname, 'fixture');
     const from = join(fixture, 'onezip.txt.zip');
     const extracter = extract(from, to);
@@ -73,29 +74,39 @@ test('onezip: extract', (t) => {
     });
 });
 
-test('onezip: exract: writeFile', (t) => {
+test('onezip: extract: dir', (t) => {
+    const to = tmp();
+    const fixture = join(__dirname, 'fixture');
+    const from = join(fixture, 'dir.zip');
+    const extracter = extract(from, to);
+    
+    extracter.on('end', () => {
+        const pathUnpacked = join(to, 'dir', 'hello.txt');
+        const fileUnpacked = readFileSync(pathUnpacked, 'utf8');
+        
+        rimraf.sync(to);
+        
+        t.deepEqual(fileUnpacked, 'world\n', 'should extract directory');
+        t.end();
+    });
+});
+
+test('onezip: exract: writeFile: error', (t) => {
     delete require.cache[require.resolve('..')];
+    delete require.cache[require.resolve('mkdirp')];
+    
     const mkdirp = require('mkdirp');
     
-    let was;
-    
     require.cache[require.resolve('mkdirp')].exports = (name, fn) => {
-        if (!was) {
-            was = true;
-            return mkdirp(name, fn);
-        }
-        
         fn(Error('Can not create directory!'));
     };
     
     const {extract} = require('..');
     
-    const to = mkdtempSync(tmpdir() + sep);
-    const from = join(__dirname, 'fixture', 'fixture.zip');
+    const to = tmpdir();
+    const from = join(__dirname, 'fixture', 'dir.zip');
     
-    const extracter = extract(from, to, [
-        'fixture'
-    ]);
+    const extracter = extract(from, to);
     
     extracter.on('error', ({message}) => {
         require.cache[require.resolve('mkdirp')].exports = mkdirp;
@@ -103,3 +114,4 @@ test('onezip: exract: writeFile', (t) => {
         t.end();
     });
 });
+
