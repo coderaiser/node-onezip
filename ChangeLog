@@ -1,3 +1,14 @@
+2017.08.28, v1.0.9
+
+fix:
+- (onezip) do not take into account the "to" property (#1)
+
+feature:
+- (gitignore) add package-lock.json
+- (package) eslint v4.0.0
+- (package) nyc v11.0.2
+
+
 2017.05.10, v1.0.8
 
 feature:
