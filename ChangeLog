@@ -1,3 +1,9 @@
+2017.08.28, v1.0.10
+
+fix:
+- (onezip) Invalid central directory file header signature: pipe-io -> pump
+
+
 2017.08.28, v1.0.9
 
 fix:
