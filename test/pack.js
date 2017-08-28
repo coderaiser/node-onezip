@@ -1,11 +1,8 @@
 'use strict';
 
 const _test = () => {};
-
 const {EventEmitter} = require('events');
-
 const os = require('os');
-
 const {tmpdir} = os;
 
 const {
@@ -88,7 +85,40 @@ test('onezip: pack', (t) => {
     ]);
     
     packer.on('end', () => {
-        const from = join(fixture, 'onezip.txt.zip');
+        const fileTo = readFileSync(to);
+        
+        unlinkSync(to);
+        t.ok(fileTo.length, 'should pack file');
+        t.end();
+    });
+});
+
+test('onezip: pack: two', (t) => {
+    const to = tmpFile();
+    const fixture = join(__dirname, 'fixture', 'two');
+    const packer = pack(fixture, to, [
+        'one.txt',
+        'two.txt',
+    ]);
+    
+    packer.on('end', () => {
+        const fileTo = readFileSync(to);
+        
+        unlinkSync(to);
+        t.ok(fileTo.length, 'should pack file');
+        t.end();
+    });
+});
+
+test('onezip: pack: stream', (t) => {
+    const to = tmpFile();
+    const stream = fs.createWriteStream(to);
+    const fixture = join(__dirname, 'fixture');
+    const packer = pack(fixture, stream, [
+        'onezip.txt',
+    ]);
+    
+    packer.on('end', () => {
         const fileTo = readFileSync(to);
         
         unlinkSync(to);
@@ -284,3 +314,4 @@ test('onezip: pack: _onOpenReadStream: error', (t) => {
     
     openReadStream(Error(expect));
 });
+
