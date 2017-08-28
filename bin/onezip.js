@@ -72,11 +72,12 @@ function main(operation, file) {
 function getName(str, fn) {
     glob(str, (error, files) => {
         if (error)
-            console.error(error.message);
-        else if (!files.length)
-            console.error('file not found');
-        else
-            fn(files[0]);
+            return console.error(error.message);
+        
+        if (!files.length)
+            return console.error('file not found');
+        
+        fn(files[0]);
     });
 }
 
