@@ -147,3 +147,4 @@ MIT
 
 [CoverageURL]:              https://coveralls.io/github/coderaiser/node-onezip?branch=master
 [CoverageIMGURL]:           https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github
+
