@@ -38,10 +38,10 @@
     "glob": "^7.0.0",
     "itchy": "^1.0.0",
     "mkdirp": "^0.5.1",
-    "yargs-parser": "^7.0.0",
+    "pipe-io": "^2.0.4",
+    "yargs-parser": "^8.0.0",
     "yauzl": "^2.6.0",
-    "yazl": "^2.4.1",
-    "pipe-io": "^2.0.4"
+    "yazl": "^2.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
