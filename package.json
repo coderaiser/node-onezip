@@ -1,6 +1,6 @@
 {
   "name": "onezip",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "pack and extract .zip archives with emitter",
   "main": "lib/onezip.js",
   "bin": {
