@@ -4,8 +4,7 @@
   "description": "pack and extract .zip archives with emitter",
   "main": "lib/onezip.js",
   "bin": {
-    "onezip": "bin/onezip.js",
-    "onezip_": "legacy/bin/onezip.js"
+    "onezip": "bin/onezip.js"
   },
   "scripts": {
     "lint:eslint": "eslint lib",
