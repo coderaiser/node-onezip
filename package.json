@@ -7,25 +7,10 @@
     "onezip": "bin/onezip.js",
     "onezip_": "legacy/bin/onezip.js"
   },
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
   "scripts": {
-    "6to5:lib": "babel lib -d legacy/lib",
-    "6to5:bin": "babel bin -d legacy/bin",
-    "wisdom": "npm run build",
-    "build": "redrun 6to5:* legacy:*",
-    "legacy:index": "echo \"module.exports = require('./lib/onezip');\" > legacy/index.js",
-    "legacy:package": "echo \"module.exports = require('../package');\" > legacy/package.js",
-    "legacy:help": "echo \"module.exports = require('../help');\" > legacy/help.js",
-    "lint:jscs": "jscs --esnext bin lib",
-    "lint:jshint": "jshint bin lib",
     "lint:eslint": "eslint lib",
     "lint:eslint:bin": "eslint bin --config .eslint-bin.rc",
     "lint": "redrun lint:*",
-    "jscs-fix": "npm run jscs --fix",
     "test": "tape 'test/**/*.js'",
     "coverage": "nyc npm test",
     "report": "nyc report --reporter=text-lcov | coveralls",
@@ -44,17 +29,16 @@
     "yazl": "^2.4.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-preset-env": "^1.6.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.0.0",
-    "jscs": "^3.0.7",
-    "jshint": "^2.9.2",
     "nodemon": "^1.11.0",
     "nyc": "^11.0.2",
     "redrun": "^6.0.0",
     "rimraf": "^2.5.4",
     "tape": "^4.6.2"
+  },
+  "engines": {
+    "node": ">=4.0.0"
   },
   "repository": {
     "type": "git",
