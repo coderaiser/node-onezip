@@ -18,7 +18,7 @@
     "watch:coverage": "npm run watcher -- npm run coverage"
   },
   "dependencies": {
-    "findit": "^2.0.0",
+    "findit2": "^2.2.3",
     "glob": "^7.0.0",
     "itchy": "^1.0.0",
     "mkdirp": "^0.5.1",
