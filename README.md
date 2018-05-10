@@ -131,11 +131,11 @@ MIT
 
 [NPMIMGURL]:                https://img.shields.io/npm/v/onezip.svg?style=flat
 [BuildStatusIMGURL]:        https://img.shields.io/travis/coderaiser/node-onezip/master.svg?style=flat
-[DependencyStatusIMGURL]:   https://img.shields.io/gemnasium/coderaiser/node-onezip.svg?style=flat
+[DependencyStatusIMGURL]:   https://img.shields.io/david/coderaiser/node-onezip.svg?style=flat
 [LicenseIMGURL]:            https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
 [NPMURL]:                   https://npmjs.org/package/onezip "npm"
 [BuildStatusURL]:           https://travis-ci.org/coderaiser/node-onezip  "Build Status"
-[DependencyStatusURL]:      https://gemnasium.com/coderaiser/node-onezip "Dependency Status"
+[DependencyStatusURL]:      https://david-dm.org/coderaiser/node-onezip "Dependency Status"
 [LicenseURL]:               https://tldrlegal.com/license/mit-license "MIT License"
 
 [CoverageURL]:              https://coveralls.io/github/coderaiser/node-onezip?branch=master
