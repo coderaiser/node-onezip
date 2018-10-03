@@ -1,3 +1,9 @@
+2018.10.03, v3.1.0
+
+feature:
+- (pack) callback -> async
+
+
 2018.09.28, v3.0.0
 
 feature:
