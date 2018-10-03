@@ -1,6 +1,5 @@
 'use strict';
 
-const _test = () => {};
 const {EventEmitter} = require('events');
 const os = require('os');
 const {tmpdir} = os;
@@ -22,6 +21,7 @@ const {
 
 const test = require('tape');
 const {pack}= require('..');
+const {reRequire} = require('mock-require');
 
 const tmpFile = () => join(os.tmpdir(), `${Math.random()}.zip`);
 
@@ -190,17 +190,15 @@ test('onezip: pack: abort: fast', (t) => {
 });
 
 test('onezip: pack: abort: unlink', (t) => {
+    const {unlink} = fs;
+    fs.unlink = (name, fn) => fn();
+    
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
+    const {pack} = reRequire('..');
     const packer = pack(dir, to, [
         'onezip.txt'
     ]);
-    
-    const unlink = fs.unlink;
-    
-    fs.unlink = (name, fn) => {
-        fn();
-    };
     
     packer.on('start', () => {
         packer.abort();
@@ -213,7 +211,7 @@ test('onezip: pack: abort: unlink', (t) => {
     });
 });
 
-_test('onezip: pack: unlink', (t) => {
+test('onezip: pack: unlink', (t) => {
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
     const packer = pack(dir, to, [
@@ -226,17 +224,10 @@ _test('onezip: pack: unlink', (t) => {
         fn();
     };
     
-    let was;
-    
     packer.once('end', () => {
-        was = true;
         fs.unlink = unlink;
         t.pass('should emit end');
-    });
-    
-    packer.on('end', () => {
-        if (was)
-            t.end();
+        t.end();
     });
     
     packer._unlink(to);
@@ -245,6 +236,7 @@ _test('onezip: pack: unlink', (t) => {
 test('onezip: pack: unlink: error', (t) => {
     const to = tmpFile();
     const dir = join(__dirname, '..');
+    const {pack} = reRequire('..');
     const packer = pack(dir, to, [
         '.git'
     ]);
@@ -270,6 +262,12 @@ test('onezip: pack: unlink: error', (t) => {
 test('onezip: pack: stat: error', (t) => {
     const {stat} = fs;
     
+    fs.stat = (name, fn) => {
+        fn(Error('Can not stat!'));
+    };
+    
+    const {pack} = reRequire('..');
+    
     const packer = pack(__dirname, tmpFile(), [
         'fixture'
     ]);
@@ -279,10 +277,6 @@ test('onezip: pack: stat: error', (t) => {
         t.equal(error.message, 'Can not stat!', 'should not create directory');
         t.end();
     });
-    
-    fs.stat = (name, fn) => {
-        fn(Error('Can not stat!'));
-    };
 });
 
 test('onezip: pack: _readStream: error', (t) => {
