@@ -20,7 +20,6 @@
   "dependencies": {
     "findit2": "^2.2.3",
     "glob": "^7.0.0",
-    "itchy": "^1.0.0",
     "mkdirp": "^0.5.1",
     "pipe-io": "^3.0.0",
     "try-to-catch": "^1.0.2",
