@@ -1,3 +1,10 @@
+2018.10.08, v3.1.1
+
+feature:
+- (package) yargs-parser v11.0.0
+- (package) rm unused itchy
+
+
 2018.10.03, v3.1.0
 
 feature:
