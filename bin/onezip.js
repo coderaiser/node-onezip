@@ -60,11 +60,11 @@ function main(operation, file) {
         console.error(error.message);
     });
     
-    packer.on('progress', function(percent) {
+    packer.on('progress', (percent) => {
         process.stdout.write('\r' + percent + '%');
     });
     
-    packer.on('end', function() {
+    packer.on('end', () => {
         process.stdout.write('\n');
     });
 }
