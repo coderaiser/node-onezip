@@ -1,6 +1,6 @@
 'use strict';
 
-const test = require('tape');
+const test = require('supertape');
 const onezip = require('..');
 
 test('onezip: no args', (t) => {

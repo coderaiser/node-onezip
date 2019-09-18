@@ -7,15 +7,14 @@
     "onezip": "bin/onezip.js"
   },
   "scripts": {
-    "lint:eslint": "eslint lib",
-    "lint:eslint:bin": "eslint bin --config .eslint-bin.rc",
-    "lint": "redrun lint:*",
-    "test": "tape 'test/**/*.js'",
-    "coverage": "nyc npm test",
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "watcher": "nodemon -w test -w lib --exec",
-    "watch:test": "npm run watcher -- npm test",
-    "watch:coverage": "npm run watcher -- npm run coverage"
+    "lint": "madrun lint",
+    "fix:lint": "madrun fix:lint",
+    "test": "madrun test",
+    "coverage": "madrun coverage",
+    "report": "madrun report",
+    "watcher": "madrun watcher",
+    "watch:test": "madrun watch:test",
+    "watch:coverage": "madrun watch:coverage"
   },
   "dependencies": {
     "findit2": "^2.2.3",
@@ -30,11 +29,16 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "eslint": "^6.4.0",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-putout": "^2.0.0",
+    "madrun": "^3.0.3",
     "mock-require": "^3.0.2",
     "nodemon": "^1.11.0",
     "nyc": "^14.1.1",
+    "putout": "^6.0.0",
     "redrun": "^7.0.0",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "supertape": "^1.2.3"
   },
   "engines": {
     "node": ">=8.0.0"

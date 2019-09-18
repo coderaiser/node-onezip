@@ -5,7 +5,7 @@
 const onezip = require('..');
 const path = require('path');
 const glob = require('glob');
-const argv = process.argv;
+const {argv} = process;
 
 const args = require('yargs-parser')(argv.slice(2), {
     string: [
@@ -16,8 +16,8 @@ const args = require('yargs-parser')(argv.slice(2), {
         v: 'version',
         h: 'help',
         p: 'pack',
-        x: 'extract'
-    }
+        x: 'extract',
+    },
 });
 
 validate(args);
@@ -31,7 +31,7 @@ else if (args.pack)
         main('pack', name);
     });
 else if (args.extract)
-   getName(args.extract, (name) => {
+    getName(args.extract, (name) => {
         main('extract', name);
     });
 else
@@ -39,20 +39,21 @@ else
 
 function main(operation, file) {
     const cwd = process.cwd();
-    let to, packer;
+    let to;
+    let packer;
     
     switch(operation) {
     case 'pack':
-        to      = path.join(cwd, file + '.zip');
-        packer  = onezip.pack(cwd, to, [
-            file
+        to = path.join(cwd, file + '.zip');
+        packer = onezip.pack(cwd, to, [
+            file,
         ]);
         
         break;
     
     case 'extract':
-        to      = cwd;
-        packer  = onezip.extract(file, to);
+        to = cwd;
+        packer = onezip.extract(file, to);
         break;
     }
     
@@ -92,24 +93,24 @@ function info() {
 function help() {
     const bin = require('../help');
     const usage = `Usage: ${info().name} [path]`;
-        
+    
     console.log(usage);
     console.log('Options:');
     
-    Object.keys(bin).forEach((name) => {
+    for (const name of Object.keys(bin)) {
         console.log(`  ${name} ${bin[name]}`);
-    });
+    }
 }
 
 function validate(args) {
     const cmdReg = /^(_|v(ersion)?|h(elp)?|p(ack)?|x|extract)$/;
     
-    Object.keys(args).forEach((cmd) => {
+    for (const cmd of Object.keys(args)) {
         if (!cmdReg.test(cmd)) {
-            const name = info().name;
+            const {name} = info();
             console.error(`'${cmd}' is not a ${name} option. See '${name} --help'.`);
             process.exit(-1);
         }
-    });
+    }
 }
 

@@ -1,10 +1,9 @@
 'use strict';
 
-const {EventEmitter} = require('events');
 const {tmpdir} = require('os');
 const {
     sep,
-    join
+    join,
 } = require('path');
 const {
     readFileSync,
@@ -14,8 +13,8 @@ const {
 } = require('fs');
 
 const rimraf = require('rimraf');
-const test = require('tape');
-const {extract}= require('..');
+const test = require('supertape');
+const {extract} = require('..');
 
 const fixtureZip = () => join(__dirname, 'fixture', 'onezip.txt.zip');
 const tmp = () => mkdtempSync(tmpdir() + sep);
@@ -36,7 +35,7 @@ test('onezip: extract: error: file not found', (t) => {
     const extracter = extract('hello.zip', 'hello');
     
     extracter.on('error', (e) => {
-        t.equal(e.message,  expect, 'should emit error when file not found');
+        t.equal(e.message, expect, 'should emit error when file not found');
         t.end();
     });
 });
@@ -46,7 +45,7 @@ test('onezip: extract: error: wrong file type', (t) => {
     const extracter = extract(fixtureZip(), tmp());
     
     extracter.on('error', ({message}) => {
-        t.equal(message, expect, 'should emit error when can not extract')
+        t.equal(message, expect, 'should emit error when can not extract');
         t.end();
     });
     
@@ -61,7 +60,7 @@ test('onezip: extract', (t) => {
     
     extracter.on('end', () => {
         const pathUnpacked = join(to, 'onezip.txt');
-        const pathFixture= join(fixture, 'onezip.txt');
+        const pathFixture = join(fixture, 'onezip.txt');
         
         const fileUnpacked = readFileSync(pathUnpacked);
         const fileFixture = readFileSync(pathFixture);
