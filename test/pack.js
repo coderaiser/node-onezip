@@ -1,9 +1,7 @@
 'use strict';
 
 const os = require('os');
-
 const {join} = require('path');
-
 const fs = require('fs');
 
 const {
@@ -252,10 +250,10 @@ test('onezip: pack: unlink: error', (t) => {
 });
 
 test('onezip: pack: stat: error', (t) => {
-    const {stat} = fs;
+    const {stat} = fs.promises;
     
-    fs.stat = (name, fn) => {
-        fn(Error('Can not stat!'));
+    fs.promises.stat = async () => {
+        throw Error('Can not stat!');
     };
     
     const {pack} = reRequire('..');
@@ -265,7 +263,7 @@ test('onezip: pack: stat: error', (t) => {
     ]);
     
     packer.on('error', (error) => {
-        fs.stat = stat;
+        fs.promises.stat = stat;
         t.equal(error.message, 'Can not stat!', 'should not create directory');
         t.end();
     });
