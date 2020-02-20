@@ -22,7 +22,7 @@
     "mkdirp": "^1.0.3",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^2.0.0",
-    "yargs-parser": "^16.0.0",
+    "yargs-parser": "^17.0.0",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.1"
   },
