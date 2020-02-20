@@ -19,7 +19,7 @@
   "dependencies": {
     "findit2": "^2.2.3",
     "glob": "^7.0.0",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.3",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^2.0.0",
     "yargs-parser": "^16.0.0",

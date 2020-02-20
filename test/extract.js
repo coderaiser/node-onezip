@@ -96,8 +96,8 @@ test('onezip: exract: writeFile: error', (t) => {
     
     const mkdirp = require('mkdirp');
     
-    require.cache[require.resolve('mkdirp')].exports = (name, fn) => {
-        fn(Error('Can not create directory!'));
+    require.cache[require.resolve('mkdirp')].exports = async () => {
+        throw Error('Can not create directory!');
     };
     
     const {extract} = require('..');
