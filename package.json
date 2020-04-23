@@ -2,7 +2,9 @@
   "name": "onezip",
   "version": "4.0.4",
   "description": "pack and extract .zip archives with emitter",
-  "main": "lib/onezip.js",
+  "type": "commonjs",
+  "main": "./lib/onezip.js",
+  "exports": "./lib/onezip.js",
   "bin": {
     "onezip": "bin/onezip.js"
   },
