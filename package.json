@@ -8,6 +8,12 @@
   "bin": {
     "onezip": "bin/onezip.js"
   },
+  "nyc": {
+    "exclude": [
+      ".madrun.js",
+      "test"
+    ]
+  },
   "scripts": {
     "lint": "madrun lint",
     "fix:lint": "madrun fix:lint",
@@ -19,6 +25,7 @@
     "watch:coverage": "madrun watch:coverage"
   },
   "dependencies": {
+    "currify": "^4.0.0",
     "findit2": "^2.2.3",
     "glob": "^7.0.0",
     "mkdirp": "^1.0.3",
@@ -29,6 +36,7 @@
     "yazl": "^2.4.1"
   },
   "devDependencies": {
+    "@cloudcmd/stub": "^2.3.4",
     "coveralls": "^3.0.0",
     "eslint": "^6.4.0",
     "eslint-plugin-node": "^11.0.0",

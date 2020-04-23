@@ -11,8 +11,10 @@ const {
 } = require('fs');
 
 const test = require('supertape');
-const {pack} = require('..');
+const stub = require('@cloudcmd/stub');
 const {reRequire} = require('mock-require');
+
+const {pack} = require('..');
 
 const tmpFile = () => join(os.tmpdir(), `${Math.random()}.zip`);
 
@@ -180,8 +182,8 @@ test('onezip: pack: abort: fast', (t) => {
 });
 
 test('onezip: pack: abort: unlink', (t) => {
-    const {unlink} = fs;
-    fs.unlink = (name, fn) => fn();
+    const {unlink} = fs.promises;
+    fs.promises.unlink = async () => {};
     
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
@@ -195,7 +197,7 @@ test('onezip: pack: abort: unlink', (t) => {
     });
     
     packer.on('end', () => {
-        fs.unlink = unlink;
+        fs.promises.unlink = unlink;
         t.pass('should emit end');
         t.end();
     });
@@ -204,23 +206,22 @@ test('onezip: pack: abort: unlink', (t) => {
 test('onezip: pack: unlink', (t) => {
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
+    
+    const {unlink} = fs.promises;
+    const unlinkStub = stub();
+    fs.promises.unlink = unlinkStub;
+    
     const packer = pack(dir, to, [
         'onezip.txt',
     ]);
     
-    const {unlink} = fs;
-    
-    fs.unlink = (name, fn) => {
-        fn();
-    };
-    
-    packer.once('end', () => {
-        fs.unlink = unlink;
-        t.pass('should emit end');
+    packer.once('end', async () => {
+        fs.promises.unlink = unlink;
+        await unlink(to);
+        
+        t.notOk(unlinkStub.called, 'should not call unlink');
         t.end();
     });
-    
-    packer._unlink(to);
 });
 
 test('onezip: pack: unlink: error', (t) => {
@@ -231,14 +232,14 @@ test('onezip: pack: unlink: error', (t) => {
         '.git',
     ]);
     
-    const {unlink} = fs;
+    const {unlink} = fs.promises;
     
-    fs.unlink = (name, fn) => {
-        fn(Error('Can not remove'));
+    fs.promises.unlink = async () => {
+        throw Error('Can not remove');
     };
     
     packer.on('error', (e) => {
-        fs.unlink = unlink;
+        fs.promises.unlink = unlink;
         t.ok(e.message, 'Can not remove', 'should emit error');
     });
     
