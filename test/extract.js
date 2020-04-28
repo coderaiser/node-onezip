@@ -1,5 +1,6 @@
 'use strict';
 
+const {once} = require('events');
 const {tmpdir} = require('os');
 const {
     sep,
@@ -14,6 +15,8 @@ const {
 
 const rimraf = require('rimraf');
 const test = require('supertape');
+const wait = require('@iocmd/wait');
+
 const {extract} = require('..');
 
 const fixtureZip = () => join(__dirname, 'fixture', 'onezip.txt.zip');
@@ -30,67 +33,72 @@ test('onezip: extract: to', (t) => {
     t.end();
 });
 
-test('onezip: extract: error: file not found', (t) => {
+test('onezip: extract: error: file not found', async (t) => {
     const expect = 'ENOENT: no such file or directory, open \'hello.zip\'';
     const extracter = extract('hello.zip', 'hello');
     
-    extracter.on('error', (e) => {
-        t.equal(e.message, expect, 'should emit error when file not found');
-        t.end();
-    });
+    const [e] = await once(extracter, 'error');
+    
+    t.equal(e.message, expect, 'should emit error when file not found');
+    t.end();
 });
 
-test('onezip: extract: error: wrong file type', (t) => {
+test('onezip: extract: error: wrong file type', async (t) => {
     const expect = 'end of central directory record signature not found';
     const extracter = extract(fixtureZip(), tmp());
     
-    extracter.on('error', ({message}) => {
-        t.equal(message, expect, 'should emit error when can not extract');
-        t.end();
-    });
+    const _extract = extracter._extract.bind(extracter, __filename);
     
-    extracter._extract(__filename);
+    const [first] = await Promise.all([
+        once(extracter, 'error'),
+        wait(_extract),
+    ]);
+    
+    const [{message}] = first;
+    
+    t.equal(message, expect, 'should emit error when can not extract');
+    t.end();
 });
 
-test('onezip: extract', (t) => {
+test('onezip: extract', async (t) => {
     const to = tmp();
     const fixture = join(__dirname, 'fixture');
     const from = join(fixture, 'onezip.txt.zip');
     const extracter = extract(from, to);
     
-    extracter.on('end', () => {
-        const pathUnpacked = join(to, 'onezip.txt');
-        const pathFixture = join(fixture, 'onezip.txt');
-        
-        const fileUnpacked = readFileSync(pathUnpacked);
-        const fileFixture = readFileSync(pathFixture);
-        
-        unlinkSync(pathUnpacked);
-        rmdirSync(to);
-        
-        t.deepEqual(fileFixture, fileUnpacked, 'should extract file');
-        t.end();
-    });
+    await once(extracter, 'end');
+    
+    const pathUnpacked = join(to, 'onezip.txt');
+    const pathFixture = join(fixture, 'onezip.txt');
+    
+    const fileUnpacked = readFileSync(pathUnpacked);
+    const fileFixture = readFileSync(pathFixture);
+    
+    unlinkSync(pathUnpacked);
+    rmdirSync(to);
+    
+    t.deepEqual(fileFixture, fileUnpacked, 'should extract file');
+    t.end();
 });
 
-test('onezip: extract: dir', (t) => {
+test('onezip: extract: dir', async (t) => {
     const to = tmp();
     const fixture = join(__dirname, 'fixture');
     const from = join(fixture, 'dir.zip');
     const extracter = extract(from, to);
     
-    extracter.on('end', () => {
-        const pathUnpacked = join(to, 'dir', 'hello.txt');
-        const fileUnpacked = readFileSync(pathUnpacked, 'utf8');
-        
-        rimraf.sync(to);
-        
-        t.deepEqual(fileUnpacked, 'world\n', 'should extract directory');
-        t.end();
-    });
+    await once(extracter, 'end');
+    
+    const pathUnpacked = join(to, 'dir', 'hello.txt');
+    const fileUnpacked = readFileSync(pathUnpacked, 'utf8');
+    
+    rimraf.sync(to);
+    
+    t.deepEqual(fileUnpacked, 'world\n', 'should extract directory');
+    t.end();
 });
 
-test('onezip: exract: writeFile: error', (t) => {
+test('onezip: exract: writeFile: error', async (t) => {
     delete require.cache[require.resolve('..')];
     delete require.cache[require.resolve('mkdirp')];
     
@@ -107,10 +115,10 @@ test('onezip: exract: writeFile: error', (t) => {
     
     const extracter = extract(from, to);
     
-    extracter.on('error', ({message}) => {
-        require.cache[require.resolve('mkdirp')].exports = mkdirp;
-        t.equal(message, 'Can not create directory!', 'should not create directory');
-        t.end();
-    });
+    const [{message}] = await once(extracter, 'error');
+    
+    require.cache[require.resolve('mkdirp')].exports = mkdirp;
+    t.equal(message, 'Can not create directory!', 'should not create directory');
+    t.end();
 });
 

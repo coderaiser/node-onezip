@@ -1,5 +1,6 @@
 'use strict';
 
+const {once} = require('events');
 const os = require('os');
 const {join} = require('path');
 const fs = require('fs');
@@ -13,6 +14,7 @@ const {
 const test = require('supertape');
 const stub = require('@cloudcmd/stub');
 const {reRequire} = require('mock-require');
+const wait = require('@iocmd/wait');
 
 const {pack} = require('..');
 
@@ -36,57 +38,56 @@ test('onezip: pack: files', (t) => {
     t.end();
 });
 
-test('onezip: pack: error: empty file list', (t) => {
+test('onezip: pack: error: empty file list', async (t) => {
     const packer = pack('hello', 'world', []);
     
-    packer.on('error', (e) => {
-        t.equal(e.message, 'Nothing to pack!', 'should emit error when file list is empty');
-        t.end();
-    });
+    const [e] = await once(packer, 'error');
+    
+    t.equal(e.message, 'Nothing to pack!', 'should emit error when file list is empty');
+    t.end();
 });
 
-test('onezip: pack: error: read', (t) => {
+test('onezip: pack: error: read', async (t) => {
     const expect = 'ENOENT: no such file or directory, lstat \'hello/world\'';
     const packer = pack('hello', 'hello.zip', [
         'world',
     ]);
     
-    packer.on('error', (e) => {
-        t.equal(e.message, expect, 'should emit error when file not found');
-        t.end();
-    });
+    const [e] = await once(packer, 'error');
+    
+    t.equal(e.message, expect, 'should emit error when file not found');
+    t.end();
 });
 
-test('onezip: pack: error: write', (t) => {
+test('onezip: pack: error: write', async (t) => {
     const expect = 'EACCES: permission denied, open \'/hello.zip\'';
     const from = join(__dirname, 'fixture');
     const packer = pack(from, '/hello.zip', [
         'onezip.txt',
     ]);
     
-    packer.on('error', (e) => {
-        t.equal(e.message, expect, 'should emit error when file not found');
-        t.end();
-    });
+    const [e] = await once(packer, 'error');
+    
+    t.equal(e.message, expect, 'should emit error when file not found');
+    t.end();
 });
 
-test('onezip: pack', (t) => {
+test('onezip: pack', async (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
         'onezip.txt',
     ]);
     
-    packer.on('end', () => {
-        const fileTo = readFileSync(to);
-        
-        unlinkSync(to);
-        t.ok(fileTo.length, 'should pack file');
-        t.end();
-    });
+    await once(packer, 'end');
+    const fileTo = readFileSync(to);
+    
+    unlinkSync(to);
+    t.ok(fileTo.length, 'should pack file');
+    t.end();
 });
 
-test('onezip: pack: two', (t) => {
+test('onezip: pack: two', async (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture', 'two');
     const packer = pack(fixture, to, [
@@ -94,16 +95,15 @@ test('onezip: pack: two', (t) => {
         'two.txt',
     ]);
     
-    packer.on('end', () => {
-        const fileTo = readFileSync(to);
-        
-        unlinkSync(to);
-        t.ok(fileTo.length, 'should pack file');
-        t.end();
-    });
+    await once(packer, 'end');
+    const fileTo = readFileSync(to);
+    
+    unlinkSync(to);
+    t.ok(fileTo.length, 'should pack file');
+    t.end();
 });
 
-test('onezip: pack: stream', (t) => {
+test('onezip: pack: stream', async (t) => {
     const to = tmpFile();
     const stream = fs.createWriteStream(to);
     const fixture = join(__dirname, 'fixture');
@@ -111,32 +111,30 @@ test('onezip: pack: stream', (t) => {
         'onezip.txt',
     ]);
     
-    packer.on('end', () => {
-        const fileTo = readFileSync(to);
-        
-        unlinkSync(to);
-        t.ok(fileTo.length, 'should pack file');
-        t.end();
-    });
+    await once(packer, 'end');
+    const fileTo = readFileSync(to);
+    
+    unlinkSync(to);
+    t.ok(fileTo.length, 'should pack file');
+    t.end();
 });
 
-test('onezip: pack: from: slash', (t) => {
+test('onezip: pack: from: slash', async (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(`${fixture}/`, to, [
         'onezip.txt',
     ]);
     
-    packer.on('end', () => {
-        const fileTo = readFileSync(to);
-        
-        unlinkSync(to);
-        t.ok(fileTo.length, 'should pack file');
-        t.end();
-    });
+    await once(packer, 'end');
+    const fileTo = readFileSync(to);
+    
+    unlinkSync(to);
+    t.ok(fileTo.length, 'should pack file');
+    t.end();
 });
 
-test('onezip: pack: abort', (t) => {
+test('onezip: pack: abort', async (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
@@ -145,13 +143,13 @@ test('onezip: pack: abort', (t) => {
     
     packer.abort();
     
-    packer.on('end', () => {
-        t.notOk(existsSync(to), 'should not create archive');
-        t.end();
-    });
+    await once(packer, 'end');
+    
+    t.notOk(existsSync(to), 'should not create archive');
+    t.end();
 });
 
-test('onezip: pack: abort', (t) => {
+test('onezip: pack: abort', async (t) => {
     const to = tmpFile();
     const fixture = join(__dirname, 'fixture');
     const packer = pack(fixture, to, [
@@ -160,10 +158,10 @@ test('onezip: pack: abort', (t) => {
     
     packer.abort();
     
-    packer.on('end', () => {
-        t.notOk(existsSync(to), 'should not create archive');
-        t.end();
-    });
+    await once(packer, 'end');
+    
+    t.notOk(existsSync(to), 'should not create archive');
+    t.end();
 });
 
 test('onezip: pack: abort: fast', (t) => {
@@ -175,13 +173,13 @@ test('onezip: pack: abort: fast', (t) => {
     
     packer.abort();
     
-    packer.on('end', () => {
-        t.notOk(existsSync(to), 'should not create archive');
-        t.end();
-    });
+    once(packer, 'end');
+    
+    t.notOk(existsSync(to), 'should not create archive');
+    t.end();
 });
 
-test('onezip: pack: abort: unlink', (t) => {
+test('onezip: pack: abort: unlink', async (t) => {
     const {unlink} = fs.promises;
     fs.promises.unlink = async () => {};
     
@@ -192,18 +190,19 @@ test('onezip: pack: abort: unlink', (t) => {
         'onezip.txt',
     ]);
     
-    packer.on('start', () => {
-        packer.abort();
-    });
+    await once(packer, 'start');
     
-    packer.on('end', () => {
-        fs.promises.unlink = unlink;
-        t.pass('should emit end');
-        t.end();
-    });
+    packer.abort();
+    
+    await once(packer, 'end');
+    
+    fs.promises.unlink = unlink;
+    
+    t.pass('should emit end');
+    t.end();
 });
 
-test('onezip: pack: unlink', (t) => {
+test('onezip: pack: unlink', async (t) => {
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
     
@@ -215,16 +214,16 @@ test('onezip: pack: unlink', (t) => {
         'onezip.txt',
     ]);
     
-    packer.once('end', async () => {
-        fs.promises.unlink = unlink;
-        await unlink(to);
-        
-        t.notOk(unlinkStub.called, 'should not call unlink');
-        t.end();
-    });
+    await once(packer, 'end');
+    await unlink(to);
+    
+    fs.promises.unlink = unlink;
+    
+    t.notOk(unlinkStub.called, 'should not call unlink');
+    t.end();
 });
 
-test('onezip: pack: unlink: error', (t) => {
+test('onezip: pack: unlink: error', async (t) => {
     const to = tmpFile();
     const dir = join(__dirname, '..');
     const {pack} = reRequire('..');
@@ -238,19 +237,23 @@ test('onezip: pack: unlink: error', (t) => {
         throw Error('Can not remove');
     };
     
-    packer.on('error', (e) => {
-        fs.promises.unlink = unlink;
-        t.ok(e.message, 'Can not remove', 'should emit error');
-    });
+    const _unlink = packer._unlink.bind(packer, to);
+    const [first] = await Promise.all([
+        once(packer, 'error'),
+        wait(_unlink),
+    ]);
     
-    packer.on('end', () => {
-        t.end();
-    });
+    const [e] = first;
     
-    packer._unlink(to);
+    await once(packer, 'end'),
+    
+    fs.promises.unlink = unlink;
+    
+    t.ok(e.message, 'Can not remove', 'should emit error');
+    t.end();
 });
 
-test('onezip: pack: stat: error', (t) => {
+test('onezip: pack: stat: error', async (t) => {
     const {stat} = fs.promises;
     
     fs.promises.stat = async () => {
@@ -263,40 +266,43 @@ test('onezip: pack: stat: error', (t) => {
         'fixture',
     ]);
     
-    packer.on('error', (error) => {
-        fs.promises.stat = stat;
-        t.equal(error.message, 'Can not stat!', 'should not create directory');
-        t.end();
-    });
+    const [error] = await once(packer, 'error');
+    
+    fs.promises.stat = stat;
+    t.equal(error.message, 'Can not stat!', 'should not create directory');
+    t.end();
 });
 
-test('onezip: pack: _readStream: error', (t) => {
+test('onezip: pack: _readStream: error', async (t) => {
     const expect = 'ENOENT: no such file or directory, open \'hello world\'';
     const packer = pack(__dirname, tmpFile(), [
         'fixture',
     ]);
     
-    packer.on('error', (error) => {
-        t.equal(error.message, expect, 'should emit error');
-        t.end();
-    });
-    
     packer._createReadStream('hello world');
+    const [error] = await once(packer, 'error');
+    
+    t.equal(error.message, expect, 'should emit error');
+    t.end();
 });
 
-test('onezip: pack: _onOpenReadStream: error', (t) => {
+test('onezip: pack: _onOpenReadStream: error', async (t) => {
     const expect = 'Can not open read stream';
     const packer = pack(__dirname, tmpFile(), [
         'fixture',
     ]);
     
-    packer.on('error', (error) => {
-        t.equal(error.message, expect, 'should emit error when can not open read stream');
-        t.end();
-    });
-    
     const openReadStream = packer._onOpenReadStream();
+    const open = openReadStream.bind(null, Error(expect));
     
-    openReadStream(Error(expect));
+    const [first] = await Promise.all([
+        once(packer, 'error'),
+        wait(open),
+    ]);
+    
+    const [error] = first;
+    
+    t.equal(error.message, expect, 'should emit error when can not open read stream');
+    t.end();
 });
 
