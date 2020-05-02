@@ -4,6 +4,7 @@ const {once} = require('events');
 const os = require('os');
 const {join} = require('path');
 const fs = require('fs');
+const {unlink} = fs.promises;
 
 const {
     readFileSync,
@@ -195,6 +196,7 @@ test('onezip: pack: abort: unlink', async (t) => {
     packer.abort();
     
     await once(packer, 'end');
+    await unlink(to);
     
     fs.promises.unlink = unlink;
     
@@ -246,6 +248,7 @@ test('onezip: pack: unlink: error', async (t) => {
     const [e] = first;
     
     await once(packer, 'end'),
+    await unlink(to);
     
     fs.promises.unlink = unlink;
     
@@ -274,21 +277,26 @@ test('onezip: pack: stat: error', async (t) => {
 });
 
 test('onezip: pack: _readStream: error', async (t) => {
+    const to = tmpFile();
     const expect = 'ENOENT: no such file or directory, open \'hello world\'';
-    const packer = pack(__dirname, tmpFile(), [
+    const packer = pack(__dirname, to, [
         'fixture',
     ]);
     
     packer._createReadStream('hello world');
     const [error] = await once(packer, 'error');
     
+    await once(packer, 'end');
+    await unlink(to);
+    
     t.equal(error.message, expect, 'should emit error');
     t.end();
 });
 
 test('onezip: pack: _onOpenReadStream: error', async (t) => {
+    const to = tmpFile();
     const expect = 'Can not open read stream';
-    const packer = pack(__dirname, tmpFile(), [
+    const packer = pack(__dirname, to, [
         'fixture',
     ]);
     
@@ -301,6 +309,9 @@ test('onezip: pack: _onOpenReadStream: error', async (t) => {
     ]);
     
     const [error] = first;
+    
+    await once(packer, 'end');
+    await unlink(to);
     
     t.equal(error.message, expect, 'should emit error when can not open read stream');
     t.end();
