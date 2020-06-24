@@ -36,7 +36,7 @@
     "yazl": "^2.4.1"
   },
   "devDependencies": {
-    "@cloudcmd/stub": "^2.3.4",
+    "@cloudcmd/stub": "^3.1.0",
     "@iocmd/wait": "^1.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^7.3.1",
