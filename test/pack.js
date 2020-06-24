@@ -10,7 +10,7 @@ const {
     readFileSync,
     unlinkSync,
     existsSync,
-} = require('fs');
+} = fs;
 
 const test = require('supertape');
 const stub = require('@cloudcmd/stub');
@@ -283,7 +283,8 @@ test('onezip: pack: _readStream: error', async (t) => {
         'fixture',
     ]);
     
-    packer._createReadStream('hello world');
+    const end = stub();
+    packer._createReadStream('hello world', end);
     const [error] = await once(packer, 'error');
     
     await once(packer, 'end');
