@@ -8,12 +8,6 @@
   "bin": {
     "onezip": "bin/onezip.js"
   },
-  "nyc": {
-    "exclude": [
-      ".madrun.js",
-      "test"
-    ]
-  },
   "scripts": {
     "lint": "madrun lint",
     "fix:lint": "madrun fix:lint",
