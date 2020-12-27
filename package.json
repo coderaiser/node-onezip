@@ -31,7 +31,7 @@
     "mkdirp": "^1.0.3",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^3.0.0",
-    "yargs-parser": "^19.0.1",
+    "yargs-parser": "^20.2.4",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.1"
   },
