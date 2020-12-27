@@ -1,5 +1,7 @@
 'use strict';
 
+const tryCatch = require('try-catch');
+
 const {once} = require('events');
 const os = require('os');
 const {join} = require('path');
@@ -22,20 +24,21 @@ const {pack} = require('..');
 const tmpFile = () => join(os.tmpdir(), `${Math.random()}.zip`);
 
 test('onezip: pack: no args', (t) => {
-    t.throws(pack, /from should be a string!/, 'should throw when no args');
+    const [error] = tryCatch(pack);
+    t.equal(error.message, 'from should be a string!', 'should throw when no args');
     t.end();
 });
 
 test('onezip: pack: to', (t) => {
-    const fn = () => pack('hello');
-    t.throws(fn, /to should be string or object!/, 'should throw when no to');
+    const [error] = tryCatch(pack, 'hello');
+    t.equal(error.message, 'to should be string or object!', 'should throw when no to');
     t.end();
 });
 
 test('onezip: pack: files', (t) => {
-    const fn = () => pack('hello', 'world');
+    const [error] = tryCatch(pack, 'hello', 'world');
     
-    t.throws(fn, /files should be an array!/, 'should throw when no files');
+    t.equal(error.message, 'files should be an array!', 'should throw when no files');
     t.end();
 });
 

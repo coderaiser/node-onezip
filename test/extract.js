@@ -1,5 +1,7 @@
 'use strict';
 
+const tryCatch = require('try-catch');
+
 const {once} = require('events');
 const {tmpdir} = require('os');
 const {
@@ -23,13 +25,14 @@ const fixtureZip = () => join(__dirname, 'fixture', 'onezip.txt.zip');
 const tmp = () => mkdtempSync(tmpdir() + sep);
 
 test('onezip: extract: no args', (t) => {
-    t.throws(extract, /from should be a string!/, 'should throw when no args');
+    const [error] = tryCatch(extract);
+    t.equal(error.message, 'from should be a string!', 'should throw when no args');
     t.end();
 });
 
 test('onezip: extract: to', (t) => {
-    const fn = () => extract('hello');
-    t.throws(fn, /to should be string or object!/, 'should throw when no to');
+    const [error] = tryCatch(extract, 'hello');
+    t.equal(error.message, 'to should be string or object!', 'should throw when no to');
     t.end();
 });
 
