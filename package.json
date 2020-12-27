@@ -48,7 +48,7 @@
     "nyc": "^15.0.0",
     "putout": "^9.0.0",
     "rimraf": "^3.0.0",
-    "supertape": "^2.0.1"
+    "supertape": "^4.1.0"
   },
   "engines": {
     "node": ">=10"
