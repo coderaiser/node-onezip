@@ -127,7 +127,7 @@ test('onezip: extract: dir + file: no error', async (t) => {
     t.end();
 });
 
-test('onezip: exract: writeFile: error', async (t) => {
+test('onezip: exract: mkdir: error', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
     const fs = require('fs/promises');
     
@@ -149,3 +149,24 @@ test('onezip: exract: writeFile: error', async (t) => {
     t.end();
 });
 
+test('onezip: exract: mkdir error on file write', async (t) => {
+    const mkdir = stub().throws(Error('Can not create directory!'));
+    const fs = require('fs/promises');
+    
+    mockRequire('fs/promises', {
+        ...fs,
+        mkdir,
+    });
+    const {extract} = reRequire('..');
+    
+    const to = tmpdir();
+    const from = join(__dirname, 'fixture', 'dir+file.zip');
+    
+    const extracter = extract(from, to);
+    const [{message}] = await once(extracter, 'error');
+    
+    stopAll();
+    
+    t.equal(message, 'Can not create directory!', 'should not create directory');
+    t.end();
+});
