@@ -22,7 +22,6 @@
     "currify": "^4.0.0",
     "findit2": "^2.2.3",
     "glob": "^7.0.0",
-    "mkdirp": "^1.0.3",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^3.0.0",
     "yargs-parser": "^20.2.4",
