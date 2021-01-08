@@ -144,6 +144,7 @@ test('onezip: exract: mkdir: error', async (t) => {
     const [{message}] = await once(extracter, 'error');
     
     stopAll();
+    rimraf.sync(to);
     
     t.equal(message, 'Can not create directory!', 'should not create directory');
     t.end();
@@ -165,8 +166,24 @@ test('onezip: exract: mkdir error on file write', async (t) => {
     const extracter = extract(from, to);
     const [{message}] = await once(extracter, 'error');
     
+    rimraf.sync(to);
     stopAll();
     
     t.equal(message, 'Can not create directory!', 'should not create directory');
+    t.end();
+});
+
+test('onezip: exract: mkdir error on file write', async (t) => {
+    const to = tmpdir();
+    const from = join(__dirname, 'fixture', '101.zip');
+    
+    const extracter = extract(from, to);
+    const [progress] = await once(extracter, 'progress');
+    await once(extracter, 'end');
+    
+    stopAll();
+    rimraf.sync(to);
+    
+    t.equal(progress, 1);
     t.end();
 });
