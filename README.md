@@ -5,7 +5,7 @@
 [NPMURL]: https://npmjs.org/package/onezip "npm"
 [NPMIMGURL]: https://img.shields.io/npm/v/onezip.svg?style=flat
 [BuildStatusURL]: https://github.com/coderaiser/node-onezip/actions/workflows/nodejs.yml "Build Status"
-[BuildStatusIMGURL]: https://github.com/coderaiser/node-onezip/actions/workflows/nodejs.yml/badge.svg)
+[BuildStatusIMGURL]: https://github.com/coderaiser/node-onezip/actions/workflows/nodejs.yml/badge.svg
 [CoverageURL]: https://coveralls.io/github/coderaiser/node-onezip?branch=master
 [CoverageIMGURL]: https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github
 
