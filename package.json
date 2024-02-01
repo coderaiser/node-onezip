@@ -26,7 +26,7 @@
     "glob": "^10.3.10",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^3.0.0",
-    "yargs-parser": "^20.2.4",
+    "yargs-parser": "^21.1.1",
     "yauzl": "^2.6.0",
     "yazl": "^2.4.1"
   },
