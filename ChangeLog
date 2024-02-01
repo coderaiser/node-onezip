@@ -1,3 +1,20 @@
+2024.02.01, v6.0.0
+
+feature:
+- 292a8c7 onezip: @cloudcmd/stub v4.0.1
+- ba717da onezip: @iocmd/wait v2.1.0
+- efe4707 onezip: madrun v10.0.1
+- 9524328 onezip: nodemon v3.0.3
+- 6f07e8e onezip: rimraf v5.0.5
+- a94a6d7 onezip: eslint v9.0.0-alpha.2
+- f899526 onezip: supertape v10.0.0
+- a7762de onezip: eslint-plugin-putout v22.3.1
+- 7bbcee6 onezip: eslint-plugin-n v16.6.2
+- d25afb6 onezip: putout v35.0.1
+- c52cab4 drop support of node < 18
+- d5b647f onezip: yargs-parser v21.1.1
+- a802882 onezip: glob v10.3.10
+
 2021.01.05, v5.0.0
 
 fix:
