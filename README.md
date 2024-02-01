@@ -1,5 +1,14 @@
 # OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
 
+[LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
+[LicenseIMGURL]: https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
+[NPMURL]: https://npmjs.org/package/onezip "npm"
+[NPMIMGURL]: https://img.shields.io/npm/v/onezip.svg?style=flat
+[BuildStatusURL]: https://github.com/coderaiser/node-onezip/actions/workflows/nodejs.yml "Build Status"
+[BuildStatusIMGURL]: https://github.com/coderaiser/node-onezip/actions/workflows/nodejs.yml/badge.svg)
+[CoverageURL]: https://coveralls.io/github/coderaiser/node-onezip?branch=master
+[CoverageIMGURL]: https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github
+
 Pack and extract .zip archives with emitter.
 
 ## Global
@@ -125,12 +134,3 @@ done
 ## License
 
 MIT
-
-[NPMIMGURL]: https://img.shields.io/npm/v/onezip.svg?style=flat
-[BuildStatusIMGURL]: https://img.shields.io/travis/coderaiser/node-onezip/master.svg?style=flat
-[LicenseIMGURL]: https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
-[NPMURL]: https://npmjs.org/package/onezip "npm"
-[BuildStatusURL]: https://travis-ci.org/coderaiser/node-onezip "Build Status"
-[LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
-[CoverageURL]: https://coveralls.io/github/coderaiser/node-onezip?branch=master
-[CoverageIMGURL]: https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github
