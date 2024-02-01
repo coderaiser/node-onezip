@@ -6,7 +6,7 @@
   "main": "./lib/onezip.js",
   "exports": "./lib/onezip.js",
   "bin": {
-    "onezip": "bin/onezip.js"
+    "onezip": "bin/onezip.mjs"
   },
   "scripts": {
     "lint": "madrun lint",
@@ -35,7 +35,6 @@
     "@iocmd/wait": "^2.1.0",
     "eslint": "^9.0.0-alpha.2",
     "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-putout": "^22.3.1",
     "madrun": "^10.0.1",
     "mock-require": "^3.0.2",

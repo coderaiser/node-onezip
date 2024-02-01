@@ -4,10 +4,9 @@ const tryCatch = require('try-catch');
 
 const {once} = require('events');
 const {tmpdir} = require('os');
-const {
-    sep,
-    join,
-} = require('path');
+
+const {sep, join} = require('path');
+
 const {
     readFileSync,
     unlinkSync,
@@ -43,7 +42,7 @@ test('onezip: extract: to', (t) => {
 });
 
 test('onezip: extract: error: file not found', async (t) => {
-    const expect = 'ENOENT: no such file or directory, open \'hello.zip\'';
+    const expect = `ENOENT: no such file or directory, open 'hello.zip'`;
     const extracter = extract('hello.zip', 'hello');
     
     const [e] = await once(extracter, 'error');
@@ -107,7 +106,7 @@ test('onezip: extract: dir', async (t) => {
     
     rimraf.sync(to);
     
-    t.deepEqual(fileUnpacked, 'world\n', 'should extract directory');
+    t.equal(fileUnpacked, 'world\n', 'should extract directory');
     t.end();
 });
 
@@ -137,7 +136,7 @@ test('onezip: exract: mkdir: error', async (t) => {
     });
     const {extract} = reRequire('..');
     
-    const to = tmpdir();
+    const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir.zip');
     
     const extracter = extract(from, to);
@@ -150,7 +149,7 @@ test('onezip: exract: mkdir: error', async (t) => {
     t.end();
 });
 
-test('onezip: exract: mkdir error on file write', async (t) => {
+test('onezip: exract: mkdir error on file write: mocked', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
     const fs = require('fs/promises');
     
@@ -160,7 +159,7 @@ test('onezip: exract: mkdir error on file write', async (t) => {
     });
     const {extract} = reRequire('..');
     
-    const to = tmpdir();
+    const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir+file.zip');
     
     const extracter = extract(from, to);
@@ -174,14 +173,15 @@ test('onezip: exract: mkdir error on file write', async (t) => {
 });
 
 test('onezip: exract: mkdir error on file write', async (t) => {
-    const to = tmpdir();
+    const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', '101.zip');
+    console.log(to);
     
     const extracter = extract(from, to);
     const [progress] = await once(extracter, 'progress');
+    
     await once(extracter, 'end');
     
-    stopAll();
     rimraf.sync(to);
     
     t.equal(progress, 1);

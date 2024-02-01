@@ -1,4 +1,4 @@
-# OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Dependency Status][DependencyStatusIMGURL]][DependencyStatusURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
+# OneZip [![License][LicenseIMGURL]][LicenseURL] [![NPM version][NPMIMGURL]][NPMURL] [![Build Status][BuildStatusIMGURL]][BuildStatusURL] [![Coverage Status][CoverageIMGURL]][CoverageURL]
 
 Pack and extract .zip archives with emitter.
 
@@ -45,14 +45,10 @@ const onezip = require('onezip');
 const path = require('path');
 const cwd = process.cwd();
 const name = 'pipe.tar.gz';
-const from = cwd + '/pipe-io';
+const from = `${cwd}/pipe-io`;
 const to = path.join(cwd, name);
 
-const pack = onezip.pack(from, to, [
-    'LICENSE',
-    'README.md',
-    'package.json',
-]);
+const pack = onezip.pack(from, to, ['LICENSE', 'README.md', 'package.json']);
 
 pack.on('file', (name) => {
     console.log(name);
@@ -63,7 +59,7 @@ pack.on('start', () => {
 });
 
 pack.on('progress', (percent) => {
-    console.log(percent + '%');
+    console.log(`${percent}%`);
 });
 
 pack.on('error', (error) => {
@@ -85,7 +81,7 @@ const onezip = require('onezip');
 const path = require('path');
 const cwd = process.cwd();
 const name = 'pipe.zip';
-const to = cwd + '/pipe-io';
+const to = `${cwd}/pipe-io`;
 const from = path.join(cwd, name);
 
 const extract = onezip.extract(from, to);
@@ -99,7 +95,7 @@ extract.on('start', (percent) => {
 });
 
 extract.on('progress', (percent) => {
-    console.log(percent + '%');
+    console.log(`${percent}%`);
 });
 
 extract.on('error', (error) => {
@@ -132,11 +128,9 @@ MIT
 
 [NPMIMGURL]: https://img.shields.io/npm/v/onezip.svg?style=flat
 [BuildStatusIMGURL]: https://img.shields.io/travis/coderaiser/node-onezip/master.svg?style=flat
-[DependencyStatusIMGURL]: https://img.shields.io/david/coderaiser/node-onezip.svg?style=flat
 [LicenseIMGURL]: https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat
 [NPMURL]: https://npmjs.org/package/onezip "npm"
 [BuildStatusURL]: https://travis-ci.org/coderaiser/node-onezip "Build Status"
-[DependencyStatusURL]: https://david-dm.org/coderaiser/node-onezip "Dependency Status"
 [LicenseURL]: https://tldrlegal.com/license/mit-license "MIT License"
 [CoverageURL]: https://coveralls.io/github/coderaiser/node-onezip?branch=master
 [CoverageIMGURL]: https://coveralls.io/repos/coderaiser/node-onezip/badge.svg?branch=master&service=github

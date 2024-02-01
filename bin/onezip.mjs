@@ -1,13 +1,13 @@
-#!/usr/bin/env node
+import {createRequire} from 'node:module';
+import yargsParser from 'yargs-parser';
+import process from 'node:process';
+import path from 'node:path';
+import {glob} from 'glob';
+import onezip from '../lib/onezip.js';
 
-'use strict';
-
-const onezip = require('..');
-const path = require('path');
-const glob = require('glob');
+const require = createRequire(import.meta.url);
 const {argv} = process;
-
-const args = require('yargs-parser')(argv.slice(2), {
+const args = yargsParser(argv.slice(2), {
     string: [
         'pack',
         'extract',
@@ -44,10 +44,8 @@ function main(operation, file) {
     
     switch(operation) {
     case 'pack':
-        to = path.join(cwd, file + '.zip');
-        packer = onezip.pack(cwd, to, [
-            file,
-        ]);
+        to = path.join(cwd, `${file}.zip`);
+        packer = onezip.pack(cwd, to, [file]);
         
         break;
     
@@ -62,7 +60,8 @@ function main(operation, file) {
     });
     
     packer.on('progress', (percent) => {
-        process.stdout.write('\r' + percent + '%');
+        process.stdout.write(`
+${percent}%`);
     });
     
     packer.on('end', () => {
@@ -113,4 +112,3 @@ function validate(args) {
         }
     }
 }
-
