@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import {createRequire} from 'node:module';
 import yargsParser from 'yargs-parser';
 import process from 'node:process';
@@ -7,6 +8,7 @@ import onezip from '../lib/onezip.js';
 
 const require = createRequire(import.meta.url);
 const {argv} = process;
+
 const args = yargsParser(argv.slice(2), {
     string: [
         'pack',

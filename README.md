@@ -32,7 +32,7 @@ Options:
 
 ## Local
 
-`onezip` could be used localy. It will emit event on every packed/extracted file.
+`onezip` could be used locally. It will emit event on every packed/extracted file.
 Good for making progress bars.
 
 ## Install

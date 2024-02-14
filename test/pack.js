@@ -18,6 +18,7 @@ const {
     unlinkSync,
     existsSync,
 } = fs;
+
 const {unlink} = fs.promises;
 const tmpFile = () => join(os.tmpdir(), `${Math.random()}.zip`);
 
@@ -62,7 +63,6 @@ test('onezip: pack: error: read', async (t) => {
 });
 
 test('onezip: pack: error: write', async (t) => {
-    const expect = `EACCES: permission denied, open '/hello.zip'`;
     const from = join(__dirname, 'fixture');
     const packer = pack(from, '/hello.zip', ['onezip.txt']);
     

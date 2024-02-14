@@ -43,9 +43,9 @@ test('onezip: extract: to', (t) => {
 
 test('onezip: extract: error: file not found', async (t) => {
     const expect = `ENOENT: no such file or directory, open 'hello.zip'`;
-    const extracter = extract('hello.zip', 'hello');
+    const extractor = extract('hello.zip', 'hello');
     
-    const [e] = await once(extracter, 'error');
+    const [e] = await once(extractor, 'error');
     
     t.equal(e.message, expect, 'should emit error when file not found');
     t.end();
@@ -54,18 +54,18 @@ test('onezip: extract: error: file not found', async (t) => {
 test('onezip: extract: error: wrong file type', async (t) => {
     const to = tmp();
     const expect = 'end of central directory record signature not found';
-    const extracter = extract(fixtureZip(), to);
+    const extractor = extract(fixtureZip(), to);
     
-    const _extract = extracter._extract.bind(extracter, __filename);
+    const _extract = extractor._extract.bind(extractor, __filename);
     
     const [first] = await Promise.all([
-        once(extracter, 'error'),
+        once(extractor, 'error'),
         wait(_extract),
     ]);
     
     const [{message}] = first;
     
-    await once(extracter, 'end');
+    await once(extractor, 'end');
     rimraf.sync(to);
     
     t.equal(message, expect, 'should emit error when can not extract');
@@ -76,9 +76,9 @@ test('onezip: extract', async (t) => {
     const to = tmp();
     const fixture = join(__dirname, 'fixture');
     const from = join(fixture, 'onezip.txt.zip');
-    const extracter = extract(from, to);
+    const extractor = extract(from, to);
     
-    await once(extracter, 'end');
+    await once(extractor, 'end');
     
     const pathUnpacked = join(to, 'onezip.txt');
     const pathFixture = join(fixture, 'onezip.txt');
@@ -97,9 +97,9 @@ test('onezip: extract: dir', async (t) => {
     const to = tmp();
     const fixture = join(__dirname, 'fixture');
     const from = join(fixture, 'dir.zip');
-    const extracter = extract(from, to);
+    const extractor = extract(from, to);
     
-    await once(extracter, 'end');
+    await once(extractor, 'end');
     
     const pathUnpacked = join(to, 'dir', 'hello.txt');
     const fileUnpacked = readFileSync(pathUnpacked, 'utf8');
@@ -113,9 +113,9 @@ test('onezip: extract: dir', async (t) => {
 test('onezip: extract: dir + file: no error', async (t) => {
     const to = tmp();
     const from = join(__dirname, 'fixture', 'dir+file.zip');
-    const extracter = extract(from, to);
+    const extractor = extract(from, to);
     
-    await once(extracter, 'end');
+    await once(extractor, 'end');
     
     const pathUnpacked = join(to, 'file1.txt');
     const fileUnpacked = readFileSync(pathUnpacked, 'utf8');
@@ -126,7 +126,7 @@ test('onezip: extract: dir + file: no error', async (t) => {
     t.end();
 });
 
-test('onezip: exract: mkdir: error', async (t) => {
+test('onezip: extract: mkdir: error', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
     const fs = require('fs/promises');
     
@@ -139,8 +139,8 @@ test('onezip: exract: mkdir: error', async (t) => {
     const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir.zip');
     
-    const extracter = extract(from, to);
-    const [{message}] = await once(extracter, 'error');
+    const extractor = extract(from, to);
+    const [{message}] = await once(extractor, 'error');
     
     stopAll();
     rimraf.sync(to);
@@ -149,7 +149,7 @@ test('onezip: exract: mkdir: error', async (t) => {
     t.end();
 });
 
-test('onezip: exract: mkdir error on file write: mocked', async (t) => {
+test('onezip: extract: mkdir error on file write: mocked', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
     const fs = require('fs/promises');
     
@@ -162,8 +162,8 @@ test('onezip: exract: mkdir error on file write: mocked', async (t) => {
     const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir+file.zip');
     
-    const extracter = extract(from, to);
-    const [{message}] = await once(extracter, 'error');
+    const extractor = extract(from, to);
+    const [{message}] = await once(extractor, 'error');
     
     rimraf.sync(to);
     stopAll();
@@ -172,15 +172,14 @@ test('onezip: exract: mkdir error on file write: mocked', async (t) => {
     t.end();
 });
 
-test('onezip: exract: mkdir error on file write', async (t) => {
+test('onezip: extract: mkdir error on file write', async (t) => {
     const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', '101.zip');
-    console.log(to);
     
-    const extracter = extract(from, to);
-    const [progress] = await once(extracter, 'progress');
+    const extractor = extract(from, to);
+    const [progress] = await once(extractor, 'progress');
     
-    await once(extracter, 'end');
+    await once(extractor, 'end');
     
     rimraf.sync(to);
     
