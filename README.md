@@ -51,7 +51,7 @@ npm i onezip --save
 
 ```js
 const onezip = require('onezip');
-const path = require('path');
+const path = require('node:path');
 const cwd = process.cwd();
 const name = 'pipe.tar.gz';
 const from = `${cwd}/pipe-io`;
@@ -87,7 +87,7 @@ pack.on('end', () => {
 
 ```js
 const onezip = require('onezip');
-const path = require('path');
+const path = require('node:path');
 const cwd = process.cwd();
 const name = 'pipe.zip';
 const to = `${cwd}/pipe-io`;

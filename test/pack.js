@@ -2,10 +2,10 @@
 
 const tryCatch = require('try-catch');
 
-const {once} = require('events');
-const os = require('os');
-const {join} = require('path');
-const fs = require('fs');
+const {once} = require('node:events');
+const os = require('node:os');
+const {join} = require('node:path');
+const fs = require('node:fs');
 
 const {test, stub} = require('supertape');
 

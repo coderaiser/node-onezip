@@ -1,67 +1,67 @@
 {
-  "name": "onezip",
-  "version": "6.0.2",
-  "description": "pack and extract .zip archives with emitter",
-  "type": "commonjs",
-  "main": "./lib/onezip.js",
-  "exports": "./lib/onezip.js",
-  "bin": {
-    "onezip": "bin/onezip.mjs"
-  },
-  "scripts": {
-    "lint": "madrun lint",
-    "fresh:lint": "madrun fresh:lint",
-    "lint:fresh": "madrun lint:fresh",
-    "fix:lint": "madrun fix:lint",
-    "test": "madrun test",
-    "coverage": "madrun coverage",
-    "report": "madrun report",
-    "watcher": "madrun watcher",
-    "watch:test": "madrun watch:test",
-    "watch:coverage": "madrun watch:coverage"
-  },
-  "dependencies": {
-    "currify": "^4.0.0",
-    "findit2": "^2.2.3",
-    "glob": "^10.3.10",
-    "pipe-io": "^4.0.0",
-    "try-to-catch": "^3.0.0",
-    "yargs-parser": "^21.1.1",
-    "yauzl": "^3.1.3",
-    "yazl": "^2.4.1"
-  },
-  "devDependencies": {
-    "@cloudcmd/stub": "^4.0.1",
-    "@iocmd/wait": "^2.1.0",
-    "eslint": "^9.0.0-alpha.2",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-putout": "^22.3.1",
-    "madrun": "^10.0.1",
-    "mock-require": "^3.0.2",
-    "nodemon": "^3.0.3",
-    "nyc": "^15.0.0",
-    "putout": "^35.0.1",
-    "rimraf": "^5.0.5",
-    "supertape": "^10.0.0",
-    "try-catch": "^3.0.0"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/coderaiser/node-onezip"
-  },
-  "keywords": [
-    "extract",
-    "zip",
-    "unzip",
-    "pack"
-  ],
-  "author": "coderaiser <mnemonic.enemy@gmail.com> (http://coderaiser.github.io/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/coderaiser/node-onezip/issues"
-  },
-  "homepage": "https://github.com/coderaiser/node-onezip"
+    "name": "onezip",
+    "version": "6.0.2",
+    "description": "pack and extract .zip archives with emitter",
+    "type": "commonjs",
+    "main": "./lib/onezip.js",
+    "exports": "./lib/onezip.js",
+    "bin": {
+        "onezip": "bin/onezip.mjs"
+    },
+    "scripts": {
+        "lint": "madrun lint",
+        "fresh:lint": "madrun fresh:lint",
+        "lint:fresh": "madrun lint:fresh",
+        "fix:lint": "madrun fix:lint",
+        "test": "madrun test",
+        "coverage": "madrun coverage",
+        "report": "madrun report",
+        "watcher": "madrun watcher",
+        "watch:test": "madrun watch:test",
+        "watch:coverage": "madrun watch:coverage"
+    },
+    "dependencies": {
+        "currify": "^4.0.0",
+        "findit2": "^2.2.3",
+        "glob": "^10.3.10",
+        "pipe-io": "^4.0.0",
+        "try-to-catch": "^3.0.0",
+        "yargs-parser": "^21.1.1",
+        "yauzl": "^3.1.3",
+        "yazl": "^2.4.1"
+    },
+    "devDependencies": {
+        "@cloudcmd/stub": "^4.0.1",
+        "@iocmd/wait": "^2.1.0",
+        "@putout/eslint-flat": "^2.0.0",
+        "eslint": "^9.0.0-alpha.2",
+        "eslint-plugin-putout": "^22.3.1",
+        "madrun": "^10.0.1",
+        "mock-require": "^3.0.2",
+        "nodemon": "^3.0.3",
+        "nyc": "^15.0.0",
+        "putout": "^35.0.1",
+        "rimraf": "^5.0.5",
+        "supertape": "^10.0.0",
+        "try-catch": "^3.0.0"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/coderaiser/node-onezip"
+    },
+    "keywords": [
+        "extract",
+        "zip",
+        "unzip",
+        "pack"
+    ],
+    "author": "coderaiser <mnemonic.enemy@gmail.com> (http://coderaiser.github.io/)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/coderaiser/node-onezip/issues"
+    },
+    "homepage": "https://github.com/coderaiser/node-onezip"
 }

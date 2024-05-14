@@ -2,17 +2,17 @@
 
 const tryCatch = require('try-catch');
 
-const {once} = require('events');
-const {tmpdir} = require('os');
+const {once} = require('node:events');
+const {tmpdir} = require('node:os');
 
-const {sep, join} = require('path');
+const {sep, join} = require('node:path');
 
 const {
     readFileSync,
     unlinkSync,
     rmdirSync,
     mkdtempSync,
-} = require('fs');
+} = require('node:fs');
 
 const rimraf = require('rimraf');
 const {test, stub} = require('supertape');
@@ -128,7 +128,7 @@ test('onezip: extract: dir + file: no error', async (t) => {
 
 test('onezip: extract: mkdir: error', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
-    const fs = require('fs/promises');
+    const fs = require('node:fs/promises');
     
     mockRequire('fs/promises', {
         ...fs,
@@ -151,9 +151,9 @@ test('onezip: extract: mkdir: error', async (t) => {
 
 test('onezip: extract: mkdir error on file write: mocked', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
-    const fs = require('fs/promises');
+    const fs = require('node:fs/promises');
     
-    mockRequire('fs/promises', {
+    mockRequire('node:fs/promises', {
         ...fs,
         mkdir,
     });
