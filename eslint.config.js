@@ -16,4 +16,5 @@ module.exports = [
     },
     ...matchToFlat(match),
 ];
+
 module.exports.match = match;
