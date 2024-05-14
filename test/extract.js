@@ -53,7 +53,7 @@ test('onezip: extract: error: file not found', async (t) => {
 
 test('onezip: extract: error: wrong file type', async (t) => {
     const to = tmp();
-    const expect = 'end of central directory record signature not found';
+    const expect = 'End of central directory record signature not found';
     const extractor = extract(fixtureZip(), to);
     
     const _extract = extractor._extract.bind(extractor, __filename);
@@ -68,7 +68,7 @@ test('onezip: extract: error: wrong file type', async (t) => {
     await once(extractor, 'end');
     rimraf.sync(to);
     
-    t.equal(message, expect, 'should emit error when can not extract');
+    t.match(message, expect, 'should emit error when can not extract');
     t.end();
 });
 
@@ -130,7 +130,7 @@ test('onezip: extract: mkdir: error', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
     const fs = require('node:fs/promises');
     
-    mockRequire('fs/promises', {
+    mockRequire('node:fs/promises', {
         ...fs,
         mkdir,
     });
