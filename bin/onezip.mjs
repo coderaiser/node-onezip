@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import {createRequire} from 'node:module';
-import yargsParser from 'yargs-parser';
 import process from 'node:process';
 import path from 'node:path';
+import yargsParser from 'yargs-parser';
 import {glob} from 'glob';
 import onezip from '../lib/onezip.js';
 
