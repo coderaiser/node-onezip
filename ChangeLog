@@ -1,3 +1,12 @@
+2024.12.04, v6.1.1
+
+feature:
+- 753a1f5 onezip: yazl v3.3.1
+- db3b4c9 onezip: c8 v10.1.2
+- c5881c0 onezip: eslint v9.16.0
+- a197d37 onezip: eslint-plugin-putout v23.2.0
+- 33d23cb onezip: putout v36.15.0
+
 2024.05.14, v6.1.0
 
 feature:
