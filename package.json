@@ -34,7 +34,7 @@
     "@cloudcmd/stub": "^4.0.1",
     "@iocmd/wait": "^2.1.0",
     "@putout/eslint-flat": "^2.0.0",
-    "c8": "^9.1.0",
+    "c8": "^10.1.2",
     "eslint": "^9.16.0",
     "eslint-plugin-putout": "^23.2.0",
     "madrun": "^10.0.1",
