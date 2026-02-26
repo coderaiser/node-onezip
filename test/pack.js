@@ -66,7 +66,7 @@ test('onezip: pack: error: write', async (t) => {
     
     const [e] = await once(packer, 'error');
     
-    t.match(e.message, /EACCESS|EROFS/, 'should emit error when file not found');
+    t.match(e.message, /EACCES|EROFS/, 'should emit error when file not found');
     t.end();
 });
 
