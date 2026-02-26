@@ -33,7 +33,7 @@
   "devDependencies": {
     "@cloudcmd/stub": "^5.0.0",
     "@iocmd/wait": "^2.1.0",
-    "@putout/eslint-flat": "^2.0.0",
+    "@putout/eslint-flat": "^4.0.0",
     "c8": "^10.1.2",
     "eslint": "^9.16.0",
     "eslint-plugin-putout": "^31.0.1",
