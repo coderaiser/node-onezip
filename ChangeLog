@@ -1,3 +1,24 @@
+2026.02.26, v7.0.0
+
+feature:
+- 5de6d56 onezip: migrate to ESM
+- 6124812 onezip: get rid of mock-require
+- 1a3fb20 onezip: named export
+- 0d7e087 onezip: drop support of node < 22
+- 4430cba onezip: yargs-parser v22.0.0
+- 7fad5cf onezip: try-to-catch v4.0.5
+- d47b538 onezip: try-catch v4.0.9
+- d28d74a onezip: rimraf v6.1.3
+- aa2bb15 onezip: glob v13.0.6
+- 1e0b25d onezip: eslint v10.0.2
+- 7cf619c onezip: c8 v11.0.0
+- ede6a0b onezip: @putout/eslint-flat v4.0.0
+- 798a641 onezip: @cloudcmd/stub v5.0.0
+- 41e96e3 onezip: eslint-plugin-putout v31.0.1
+- 158e05f onezip: supertape v12.5.0
+- ebe61d5 onezip: madrun v13.0.0
+- 0778d5c onezip: putout v42.0.18
+
 2024.12.04, v6.1.1
 
 feature:
