@@ -1,9 +1,6 @@
-'use strict';
-
-const {tryCatch} = require('try-catch');
-
-const {test} = require('supertape');
-const {onezip} = require('..');
+import {tryCatch} from 'try-catch';
+import {test} from 'supertape';
+import {onezip} from '../lib/onezip.js';
 
 test('onezip: no args', (t) => {
     const [error] = tryCatch(onezip);

@@ -1,25 +1,25 @@
-'use strict';
-
-const {once} = require('node:events');
-const {tmpdir} = require('node:os');
-
-const {sep, join} = require('node:path');
-
-const {
+import {once} from 'node:events';
+import {tmpdir} from 'node:os';
+import {
+    sep,
+    join,
+    dirname,
+} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {
     readFileSync,
     unlinkSync,
     rmdirSync,
     mkdtempSync,
-} = require('node:fs');
+} from 'node:fs';
+import {tryCatch} from 'try-catch';
+import {rimraf} from 'rimraf';
+import {test, stub} from 'supertape';
+import wait from '@iocmd/wait';
+import {extract} from '../lib/onezip.js';
 
-const {tryCatch} = require('try-catch');
-
-const rimraf = require('rimraf');
-const {test, stub} = require('supertape');
-const wait = require('@iocmd/wait');
-
-const {extract} = require('..');
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const fixtureZip = () => join(__dirname, 'fixture', 'onezip.txt.zip');
 const tmp = () => mkdtempSync(tmpdir() + sep);
 
@@ -70,7 +70,7 @@ test('onezip: extract: error: wrong file type', async (t) => {
 
 test('onezip: extract', async (t) => {
     const to = tmp();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const from = join(fixture, 'onezip.txt.zip');
     const extractor = extract(from, to);
     
@@ -91,7 +91,7 @@ test('onezip: extract', async (t) => {
 
 test('onezip: extract: dir', async (t) => {
     const to = tmp();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const from = join(fixture, 'dir.zip');
     const extractor = extract(from, to);
     

@@ -2,11 +2,11 @@
   "name": "onezip",
   "version": "6.1.1",
   "description": "pack and extract .zip archives with emitter",
-  "type": "commonjs",
+  "type": "module",
   "main": "./lib/onezip.js",
   "exports": "./lib/onezip.js",
   "bin": {
-    "onezip": "bin/onezip.mjs"
+    "onezip": "bin/onezip.js"
   },
   "scripts": {
     "lint": "madrun lint",

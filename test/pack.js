@@ -1,16 +1,16 @@
-'use strict';
+import {once} from 'node:events';
+import os from 'node:os';
+import {join, dirname} from 'node:path';
+import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {tryCatch} from 'try-catch';
+import {test, stub} from 'supertape';
+import wait from '@iocmd/wait';
+import {pack} from '../lib/onezip.js';
 
-const {once} = require('node:events');
-const os = require('node:os');
-const {join} = require('node:path');
-const fs = require('node:fs');
-const {tryCatch} = require('try-catch');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const {test, stub} = require('supertape');
-
-const wait = require('@iocmd/wait');
-
-const {pack} = require('..');
 const {
     readFileSync,
     unlinkSync,
@@ -61,7 +61,7 @@ test('onezip: pack: error: read', async (t) => {
 });
 
 test('onezip: pack: error: write', async (t) => {
-    const from = join(__dirname, 'fixture');
+    const from = new URL('fixture', import.meta.url).pathname;
     const packer = pack(from, '/hello.zip', ['onezip.txt']);
     
     const [e] = await once(packer, 'error');
@@ -72,7 +72,7 @@ test('onezip: pack: error: write', async (t) => {
 
 test('onezip: pack', async (t) => {
     const to = tmpFile();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const packer = pack(fixture, to, ['onezip.txt']);
     
     await once(packer, 'end');
@@ -101,7 +101,7 @@ test('onezip: pack: two', async (t) => {
 test('onezip: pack: stream', async (t) => {
     const to = tmpFile();
     const stream = fs.createWriteStream(to);
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     
     const packer = pack(fixture, stream, ['onezip.txt']);
     
@@ -116,7 +116,7 @@ test('onezip: pack: stream', async (t) => {
 
 test('onezip: pack: from: slash', async (t) => {
     const to = tmpFile();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const packer = pack(`${fixture}/`, to, ['onezip.txt']);
     
     await once(packer, 'end');
@@ -130,7 +130,7 @@ test('onezip: pack: from: slash', async (t) => {
 
 test('onezip: pack: abort', async (t) => {
     const to = tmpFile();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const packer = pack(fixture, to, ['onezip.txt']);
     
     packer.abort();
@@ -143,7 +143,7 @@ test('onezip: pack: abort', async (t) => {
 
 test('onezip: pack: abort: fast', (t) => {
     const to = tmpFile();
-    const fixture = join(__dirname, 'fixture');
+    const fixture = new URL('fixture', import.meta.url).pathname;
     const packer = pack(fixture, to, ['onezip.txt']);
     
     packer.abort();
@@ -158,7 +158,7 @@ test('onezip: pack: abort: unlink', async (t) => {
     const {unlink} = fs.promises;
     
     const to = tmpFile();
-    const dir = join(__dirname, 'fixture');
+    const dir = new URL('fixture', import.meta.url).pathname;
     
     const packer = pack(dir, to, ['onezip.txt'], {
         unlink: stub().resolves(),
@@ -177,7 +177,7 @@ test('onezip: pack: abort: unlink', async (t) => {
 
 test('onezip: pack: unlink', async (t) => {
     const to = tmpFile();
-    const dir = join(__dirname, 'fixture');
+    const dir = new URL('fixture', import.meta.url).pathname;
     
     const {unlink} = fs.promises;
     const unlinkStub = stub();
@@ -197,7 +197,7 @@ test('onezip: pack: unlink', async (t) => {
 
 test('onezip: pack: unlink: error', async (t) => {
     const to = tmpFile();
-    const dir = join(__dirname, '..');
+    const dir = new URL('..', import.meta.url).pathname;
     
     const unlinkStub = stub().rejects(Error('Can not remove'));
     

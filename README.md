@@ -50,8 +50,8 @@ npm i onezip --save
 - `names` - **array** of names in directory `from` that would be packed.
 
 ```js
-const path = require('node:path');
-const {onezip} = require('onezip');
+import path from 'node:path';
+import {onezip} from 'onezip';
 
 const cwd = process.cwd();
 const name = 'pipe.tar.gz';
@@ -87,8 +87,8 @@ pack.on('end', () => {
 - `to` - path to directory where files would be stored.
 
 ```js
-const path = require('node:path');
-const onezip = require('onezip');
+import path from 'node:path';
+import {onezip} from 'onezip';
 
 const cwd = process.cwd();
 const name = 'pipe.zip';
