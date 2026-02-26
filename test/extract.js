@@ -18,11 +18,7 @@ const rimraf = require('rimraf');
 const {test, stub} = require('supertape');
 const wait = require('@iocmd/wait');
 
-const mockRequire = require('mock-require');
-
 const {extract} = require('..');
-
-const {reRequire, stopAll} = mockRequire;
 
 const fixtureZip = () => join(__dirname, 'fixture', 'onezip.txt.zip');
 const tmp = () => mkdtempSync(tmpdir() + sep);
@@ -128,21 +124,16 @@ test('onezip: extract: dir + file: no error', async (t) => {
 
 test('onezip: extract: mkdir: error', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
-    const fs = require('node:fs/promises');
-    
-    mockRequire('node:fs/promises', {
-        ...fs,
-        mkdir,
-    });
-    const {extract} = reRequire('..');
     
     const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir.zip');
     
-    const extractor = extract(from, to);
+    const extractor = extract(from, to, null, {
+        mkdir,
+    });
+    
     const [{message}] = await once(extractor, 'error');
     
-    stopAll();
     rimraf.sync(to);
     
     t.equal(message, 'Can not create directory!', 'should not create directory');
@@ -151,22 +142,16 @@ test('onezip: extract: mkdir: error', async (t) => {
 
 test('onezip: extract: mkdir error on file write: mocked', async (t) => {
     const mkdir = stub().throws(Error('Can not create directory!'));
-    const fs = require('node:fs/promises');
-    
-    mockRequire('node:fs/promises', {
-        ...fs,
-        mkdir,
-    });
-    const {extract} = reRequire('..');
-    
     const to = `${tmpdir()}/onezip`;
     const from = join(__dirname, 'fixture', 'dir+file.zip');
     
-    const extractor = extract(from, to);
+    const extractor = extract(from, to, null, {
+        mkdir,
+    });
+    
     const [{message}] = await once(extractor, 'error');
     
     rimraf.sync(to);
-    stopAll();
     
     t.equal(message, 'Can not create directory!', 'should not create directory');
     t.end();

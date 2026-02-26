@@ -8,7 +8,6 @@ const {tryCatch} = require('try-catch');
 
 const {test, stub} = require('supertape');
 
-const {reRequire} = require('mock-require');
 const wait = require('@iocmd/wait');
 
 const {pack} = require('..');
@@ -158,13 +157,12 @@ test('onezip: pack: abort: fast', (t) => {
 test('onezip: pack: abort: unlink', async (t) => {
     const {unlink} = fs.promises;
     
-    fs.promises.unlink = async () => {};
-    
     const to = tmpFile();
     const dir = join(__dirname, 'fixture');
-    const {pack} = reRequire('..');
     
-    const packer = pack(dir, to, ['onezip.txt']);
+    const packer = pack(dir, to, ['onezip.txt'], {
+        unlink: stub().resolves(),
+    });
     
     await once(packer, 'start');
     
@@ -172,8 +170,6 @@ test('onezip: pack: abort: unlink', async (t) => {
     
     await once(packer, 'end');
     await unlink(to);
-    
-    fs.promises.unlink = unlink;
     
     t.pass('should emit end');
     t.end();
@@ -202,15 +198,12 @@ test('onezip: pack: unlink', async (t) => {
 test('onezip: pack: unlink: error', async (t) => {
     const to = tmpFile();
     const dir = join(__dirname, '..');
-    const {pack} = reRequire('..');
     
-    const packer = pack(dir, to, ['.git']);
+    const unlinkStub = stub().rejects(Error('Can not remove'));
     
-    const {unlink} = fs.promises;
-    
-    fs.promises.unlink = async () => {
-        throw Error('Can not remove');
-    };
+    const packer = pack(dir, to, ['.git'], {
+        unlink: unlinkStub,
+    });
     
     const _unlink = packer._unlink.bind(packer, to);
     
@@ -223,26 +216,19 @@ test('onezip: pack: unlink: error', async (t) => {
     
     await once(packer, 'end');
     await unlink(to);
-    fs.promises.unlink = unlink;
     
     t.ok(e.message, 'Can not remove', 'should emit error');
     t.end();
 });
 
 test('onezip: pack: stat: error', async (t) => {
-    const {stat} = fs.promises;
+    const stat = stub().rejects(Error('Can not stat!'));
     
-    fs.promises.stat = async () => {
-        throw Error('Can not stat!');
-    };
-    
-    const {pack} = reRequire('..');
-    
-    const packer = pack(__dirname, tmpFile(), ['fixture']);
+    const packer = pack(__dirname, tmpFile(), ['fixture'], {
+        stat,
+    });
     
     const [error] = await once(packer, 'error');
-    
-    fs.promises.stat = stat;
     
     t.equal(error.message, 'Can not stat!', 'should not create directory');
     t.end();
