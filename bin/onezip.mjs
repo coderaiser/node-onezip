@@ -8,9 +8,9 @@ import {glob} from 'glob';
 import {onezip} from '../lib/onezip.js';
 
 const require = createRequire(import.meta.url);
-const {argv} = process;
 
 const info = require('../package');
+const {argv} = process;
 
 const args = yargsParser(argv.slice(2), {
     string: [
