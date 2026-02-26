@@ -1,6 +1,10 @@
 import {tryCatch} from 'try-catch';
 import {test} from 'supertape';
-import {onezip, pack, extract} from '../lib/onezip.js';
+import {
+    onezip,
+    pack,
+    extract,
+} from '../lib/onezip.js';
 
 test('onezip: no args', (t) => {
     const [error] = tryCatch(onezip);
