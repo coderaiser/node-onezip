@@ -1,11 +1,10 @@
 'use strict';
 
-const tryCatch = require('try-catch');
-
 const {once} = require('node:events');
 const os = require('node:os');
 const {join} = require('node:path');
 const fs = require('node:fs');
+const {tryCatch} = require('try-catch');
 
 const {test, stub} = require('supertape');
 

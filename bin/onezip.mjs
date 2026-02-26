@@ -88,9 +88,7 @@ function version() {
     console.log('v' + info().version);
 }
 
-function info() {
-    return require('../package');
-}
+const info = () => require('../package');
 
 function help() {
     const bin = require('../help');

@@ -1,9 +1,11 @@
-.*
-test
 *.swp
+*.config.*
+*.log
+*.loc
+
+.*
 
 madrun.js
 
-yarn-error.log
+test
 coverage
-*.config.*

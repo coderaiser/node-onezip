@@ -33,7 +33,6 @@
   "devDependencies": {
     "@cloudcmd/stub": "^5.0.0",
     "@iocmd/wait": "^2.1.0",
-    "@putout/eslint-flat": "^4.0.0",
     "c8": "^11.0.0",
     "eslint": "^10.0.2",
     "eslint-plugin-putout": "^31.0.1",
@@ -50,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coderaiser/node-onezip"
+    "url": "git+https://github.com/coderaiser/node-onezip"
   },
   "keywords": [
     "extract",

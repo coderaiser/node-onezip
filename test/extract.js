@@ -1,7 +1,5 @@
 'use strict';
 
-const tryCatch = require('try-catch');
-
 const {once} = require('node:events');
 const {tmpdir} = require('node:os');
 
@@ -13,6 +11,8 @@ const {
     rmdirSync,
     mkdtempSync,
 } = require('node:fs');
+
+const {tryCatch} = require('try-catch');
 
 const rimraf = require('rimraf');
 const {test, stub} = require('supertape');

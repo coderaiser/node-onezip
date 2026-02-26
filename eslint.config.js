@@ -1,20 +1,9 @@
 'use strict';
 
-const {safeAlign} = require('eslint-plugin-putout/config');
-const {matchToFlat} = require('@putout/eslint-flat');
-const match = {
-    'bin/**': {
-        'no-process-exit': 'off',
-    },
-};
+const {safeAlign} = require('eslint-plugin-putout');
 
-module.exports = [
-    ...safeAlign, {
-        rules: {
-            'node/no-unsupported-features/node-builtins': 'off',
-        },
-    },
-    ...matchToFlat(match),
-];
+const match = {};
+
+module.exports = safeAlign;
 
 module.exports.match = match;

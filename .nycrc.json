@@ -2,10 +2,10 @@
     "check-coverage": true,
     "all": true,
     "exclude": [
-        "bin",
-        "test",
         "**/*.*.js",
-        "**/*.config.*"
+        "**/*.config.*",
+        "bin",
+        "test"
     ],
     "branches": 100,
     "lines": 100,
