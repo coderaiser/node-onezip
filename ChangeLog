@@ -1,3 +1,8 @@
+2026.02.26, v7.0.1
+
+fix:
+- 7730242 onezip: pack/extract
+
 2026.02.26, v7.0.0
 
 feature:
