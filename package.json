@@ -23,7 +23,7 @@
   "dependencies": {
     "currify": "^4.0.0",
     "findit2": "^2.2.3",
-    "glob": "^10.3.10",
+    "glob": "^13.0.6",
     "pipe-io": "^4.0.0",
     "try-to-catch": "^3.0.0",
     "yargs-parser": "^21.1.1",
