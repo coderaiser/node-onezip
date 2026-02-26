@@ -3,7 +3,7 @@
 const {tryCatch} = require('try-catch');
 
 const {test} = require('supertape');
-const onezip = require('..');
+const {onezip} = require('..');
 
 test('onezip: no args', (t) => {
     const [error] = tryCatch(onezip);

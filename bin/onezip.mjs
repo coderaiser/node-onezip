@@ -5,10 +5,12 @@ import process from 'node:process';
 import path from 'node:path';
 import yargsParser from 'yargs-parser';
 import {glob} from 'glob';
-import onezip from '../lib/onezip.js';
+import {onezip} from '../lib/onezip.js';
 
 const require = createRequire(import.meta.url);
 const {argv} = process;
+
+const info = require('../package');
 
 const args = yargsParser(argv.slice(2), {
     string: [
@@ -85,14 +87,12 @@ function getName(str, fn) {
 }
 
 function version() {
-    console.log('v' + info().version);
+    console.log('v' + info.version);
 }
-
-const info = () => require('../package');
 
 function help() {
     const bin = require('../help');
-    const usage = `Usage: ${info().name} [path]`;
+    const usage = `Usage: ${info.name} [path]`;
     
     console.log(usage);
     console.log('Options:');
@@ -107,7 +107,7 @@ function validate(args) {
     
     for (const cmd of Object.keys(args)) {
         if (!cmdReg.test(cmd)) {
-            const {name} = info();
+            const {name} = info;
             console.error(`'${cmd}' is not a ${name} option. See '${name} --help'.`);
             process.exit(-1);
         }
