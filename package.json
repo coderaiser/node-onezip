@@ -45,7 +45,7 @@
     "try-catch": "^4.0.9"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
