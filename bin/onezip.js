@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-import {createRequire} from 'node:module';
 import process from 'node:process';
 import path from 'node:path';
 import yargsParser from 'yargs-parser';
 import {glob} from 'glob';
 import {onezip} from '../lib/onezip.js';
+import info from '../package.json' with {
+    type: 'json',
+};
 
-const require = createRequire(import.meta.url);
-
-const info = require('../package');
 const {argv} = process;
 
 const args = yargsParser(argv.slice(2), {
@@ -30,15 +29,11 @@ validate(args);
 if (args.version)
     version();
 else if (args.help)
-    help();
+    await help();
 else if (args.pack)
-    getName(args.pack, (name) => {
-        main('pack', name);
-    });
+    main('pack', await getName(args.pack));
 else if (args.extract)
-    getName(args.extract, (name) => {
-        main('extract', name);
-    });
+    main('extract', await getName(args.extract));
 else
     help();
 
@@ -74,24 +69,26 @@ ${percent}%`);
     });
 }
 
-function getName(str, fn) {
-    glob(str, (error, files) => {
-        if (error)
-            return console.error(error.message);
-        
-        if (!files.length)
-            return console.error('file not found');
-        
-        fn(files[0]);
-    });
+async function getName(str) {
+    const files = await glob(str);
+    
+    if (!files.length)
+        return console.error('file not found');
+    
+    return files[0];
 }
 
 function version() {
     console.log('v' + info.version);
 }
 
-function help() {
-    const bin = require('../help');
+async function help() {
+    const {default: bin} = await import('../help.json', {
+        with: {
+            type: 'json',
+        },
+    });
+    
     const usage = `Usage: ${info.name} [path]`;
     
     console.log(usage);
