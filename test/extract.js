@@ -89,6 +89,20 @@ test('onezip: extract', async (t) => {
     t.end();
 });
 
+test('onezip: extract: invalid entry name: no crash', async (t) => {
+    const to = tmp();
+    const from = join(__dirname, 'fixture', 'invalid-entry-name.zip');
+    const expect = 'invalid relative path: ../evil.txt';
+    
+    const extractor = extract(from, to);
+    const [error] = await once(extractor, 'error');
+    
+    rimraf.sync(to);
+    
+    t.equal(error.message, expect, 'should emit error instead of crashing the process');
+    t.end();
+});
+
 test('onezip: extract: dir', async (t) => {
     const to = tmp();
     const fixture = new URL('fixture', import.meta.url).pathname;

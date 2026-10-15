@@ -61,12 +61,16 @@ test('onezip: pack: error: read', async (t) => {
 });
 
 test('onezip: pack: error: write', async (t) => {
+    const expect = `EACCES: permission denied, open '/hello.zip'`;
     const from = new URL('fixture', import.meta.url).pathname;
-    const packer = pack(from, '/hello.zip', ['onezip.txt']);
+    
+    const packer = pack(from, '/hello.zip', ['onezip.txt'], {
+        pipe: stub().rejects(Error(expect)),
+    });
     
     const [e] = await once(packer, 'error');
     
-    t.match(e.message, /EACCES|EROFS/, 'should emit error when file not found');
+    t.equal(e.message, expect, 'should emit error when can not write');
     t.end();
 });
 
