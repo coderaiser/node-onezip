@@ -1,6 +1,7 @@
 import {once} from 'node:events';
 import os from 'node:os';
 import {join, dirname} from 'node:path';
+import {PassThrough} from 'node:stream';
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {tryCatch} from 'try-catch';
@@ -64,7 +65,15 @@ test('onezip: pack: error: write', async (t) => {
     const expect = `EACCES: permission denied, open '/hello.zip'`;
     const from = new URL('fixture', import.meta.url).pathname;
     
-    const packer = pack(from, '/hello.zip', ['onezip.txt'], {
+    // "to" is passed as a stream object (not a path string) so _pack never
+    // calls the real fs.createWriteStream('/hello.zip') - that call opens
+    // a real file descriptor asynchronously and, being independent of the
+    // stubbed "pipe" below, would otherwise emit its own unlistened
+    // 'error' event and crash the process on filesystems where the path
+    // is genuinely unwritable (EACCES is injected via "pipe" instead).
+    const to = new PassThrough();
+    
+    const packer = pack(from, to, ['onezip.txt'], {
         pipe: stub().rejects(Error(expect)),
     });
     
